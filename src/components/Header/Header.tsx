@@ -6,15 +6,17 @@ import AddToCart from "../AddToCart/AddToCart";
 import AddToCompare from "../AddToCompare/AddToCompare";
 import AddToFavorite from "../AddToFavorite/AddToFavorite";
 import CardItem from "../CardItem/CardItem";
+import New from "../New/New";
 
 interface Props {}
 
 const Header = (props: Props) => {
   return (
     <div>
-      {/* <Navbar /> */}
-      {/* <MidleBar /> */}
-      <CardItem />
+      <Navbar />
+      <MidleBar />
+      <New />
+      {/* <CardItem /> */}
     </div>
   );
 };

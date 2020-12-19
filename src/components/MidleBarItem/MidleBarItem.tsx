@@ -54,7 +54,7 @@ interface Props {
 }
 
 export default function MidleBarItem(props: Props) {
-  const { name, data } = props;
+  const { name, data, url } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
