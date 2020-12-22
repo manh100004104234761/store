@@ -11,16 +11,25 @@ import AddToCart from "../AddToCart/AddToCart";
 import AddToFavorite from "../AddToFavorite/AddToFavorite";
 import Detail from "../Detail/Detail";
 
+interface Props {
+  item: {
+    image: string;
+    name: string;
+    description: string;
+  };
+}
+
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    width: 345,
+    marginLeft: 40,
   },
   media: {
     height: 140,
   },
 });
 
-export default function CardItem() {
+export default function CardItem(props: Props) {
   const classes = useStyles();
 
   return (
@@ -28,15 +37,15 @@ export default function CardItem() {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="./iphone12.jpg"
+          image={props.item.image}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Iphone 12
+            {props.item.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Iphone 12 là hàng xịn
+            {props.item.description}
           </Typography>
         </CardContent>
       </CardActionArea>

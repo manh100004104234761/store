@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
 interface IMockup {
   link: string;
@@ -32,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginTop: 20,
     marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
 }));
 
@@ -46,9 +49,11 @@ const New = (props: Props) => {
       {mockup.map((item) => {
         return (
           <>
-            <div>{item.content}</div>
-            <div>{item.link}</div>
-            <div>{item.short_content}</div>
+            <div className={classes.new}>
+              <Link>{item.link}</Link>
+              <Typography variant="h5">{item.short_content}</Typography>
+              <div>{item.content}</div>
+            </div>
           </>
         );
       })}

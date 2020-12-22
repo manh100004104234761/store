@@ -4,7 +4,7 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import Home from "./views/Home/Home";
 import Register from "./views/Register/Register";
-import SignIn from "./views/SignUp/SignUp";
+import SignIn from "./views/SignIn/SignIn";
 import AddressForm from "./components/AddressForm/AddressForm";
 import OrderForm from "./components/OrderForm/OrderForm";
 import Checkout from "./views/Checkout/Checkout";
