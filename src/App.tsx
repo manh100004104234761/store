@@ -1,16 +1,33 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useEffect } from "react";
 import "./App.css";
-import Header from "./components/Header/Header";
-import Home from "./views/Home/Home";
-import Register from "./views/Register/Register";
-import SignIn from "./views/SignIn/SignIn";
-import AddressForm from "./components/AddressForm/AddressForm";
-import OrderForm from "./components/OrderForm/OrderForm";
-import Checkout from "./views/Checkout/Checkout";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo, persistToken } from "./redux/action/user.action";
+import { IUserState } from "./redux/reducer/user.reducer";
+import { StoreState } from "./redux/store/store";
 
-function App() {
-  return <Home />;
+interface Props {
+  children: React.ReactNode;
+}
+
+function App(props: Props) {
+  const { children } = props;
+  // React Hook Function
+  const dispatch = useDispatch();
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
+
+  useEffect(() => {
+    if (!user.loadedInfo) {
+      dispatch(persistToken());
+    }
+  }, [user.loadedInfo]);
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      dispatch(getUserInfo());
+    }
+  }, [user.isLoggedIn]);
+
+  return <div className="App-wrapper">{children}</div>;
 }
 
 export default App;
