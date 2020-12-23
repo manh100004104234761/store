@@ -10,13 +10,10 @@ import AddToCompare from "./components/AddToCompare/AddToCompare";
 import AddToCart from "./components/AddToCart/AddToCart";
 import AddToFavorite from "./components/AddToFavorite/AddToFavorite";
 import Detail from "./components/Detail/Detail";
+import { Product } from "src/shared/type/product.type";
 
 interface Props {
-  item: {
-    image: string;
-    name: string;
-    description: string;
-  };
+  item: Product;
 }
 
 const useStyles = makeStyles({

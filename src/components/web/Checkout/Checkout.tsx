@@ -89,7 +89,7 @@ export default function Checkout() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
@@ -110,9 +110,9 @@ export default function Checkout() {
               </Step>
             ))}
           </Stepper>
-          <React.Fragment>
+          <>
             {activeStep === steps.length ? (
-              <React.Fragment>
+              <>
                 <Typography variant="h5" gutterBottom>
                   Thank you for your order.
                 </Typography>
@@ -121,9 +121,9 @@ export default function Checkout() {
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
-              </React.Fragment>
+              </>
             ) : (
-              <React.Fragment>
+              <>
                 {getStepContent(activeStep)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
@@ -140,12 +140,12 @@ export default function Checkout() {
                     {activeStep === steps.length - 1 ? "Place order" : "Next"}
                   </Button>
                 </div>
-              </React.Fragment>
+              </>
             )}
-          </React.Fragment>
+          </>
         </Paper>
         <Copyright />
       </main>
-    </React.Fragment>
+    </>
   );
 }

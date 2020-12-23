@@ -54,6 +54,7 @@ const useStyles = makeStyles({
 
 interface Props {}
 
+// TODO: Convert to map => define Item type
 const Cart = (props: Props) => {
   const [cart, updateCart] = useState([]);
   const classes = useStyles();
