@@ -28,7 +28,7 @@ export default function ItemDetail() {
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <CardItem
-            item={{ image: "", name: "Iphone12", description: "Hello" }}
+            item={{ image: "", product_name: "Iphone12", description: "Hello" }}
           />
         </Grid>
         <Grid item xs={8}>

@@ -25,7 +25,9 @@ import { StoreState } from "src/redux/store/store";
 import { useSelector } from "react-redux";
 import { logout } from "src/redux/action/user.action";
 import { useDispatch } from "react-redux";
-import { BOOK_TOKEN_KEY, localStore } from "src/lib/storage";
+import { getAllNews } from "src/redux/action/new.action";
+import { INewRes } from "src/shared/type/new.type";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -99,6 +101,8 @@ function HomeIcon(props: SvgIconProps) {
 const TopBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const user = useSelector<StoreState, IUserState>((state) => state.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -108,14 +112,20 @@ const TopBar = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleGetNews = async () => {
+    const result = ((await dispatch(getAllNews())) as any) as INewRes;
+    if (result.status == true) {
+      history.push("./news");
+    }
+  };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
   const logOut = () => {
     handleMenuClose();
-    localStore.removeItem(BOOK_TOKEN_KEY);
-    // dispatch(logout());
+    dispatch(logout());
   };
 
   const menuId = "primary-search-account-menu";
@@ -148,7 +158,7 @@ const TopBar = () => {
               <HomeIcon style={{ fontSize: 40 }} />
             </a>
           </IconButton>
-          <Button color="inherit">
+          <Button color="inherit" onClick={handleGetNews}>
             <Typography variant="h6">News</Typography>
           </Button>
           <div className={classes.search}>

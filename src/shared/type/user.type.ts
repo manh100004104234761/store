@@ -18,15 +18,21 @@ export interface IUser {
   stress: string;
   company: string;
   phone: string;
+  user_id?: number;
+  rule?: number;
+  created_at?: Date;
+  updated_at?: Date;
+  image?: any;
 }
+
 
 export interface RegisterReq extends Partial<IUser> {
   confirm_password: string;
 }
 export interface RegisterRes {
-  status: string;
+  status: boolean;
   message: string;
-  results: {
+  data: {
     user_id: number;
     token: string;
   };
@@ -38,22 +44,16 @@ export interface LoginReq {
 }
 // export interface LoginRes extends RegisterRes {}
 export interface LoginRes {
-  result: {
-    result: boolean;
-    jwt: string;
-    data: IUser;
+  status: boolean;
+  message: string;
+  data: {
+    jwt: string
   }
 }
 
 export interface LogoutRes {}
 export interface GetUserInfoRes {
-  // status: string;
-  // message: string;
-  data: {
-    user_id: number;
-    rule: number;
-    created_at: Date;
-    updated_at: Date;
-    user_profile: IUser;
-  };
+  status: boolean;
+  message: string;
+  data: IUser;
 }

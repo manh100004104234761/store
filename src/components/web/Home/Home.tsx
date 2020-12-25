@@ -1,12 +1,26 @@
-import React from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import CardItem from '../../common/CardItem/CardItem';
-import { mockup } from './homeData';
+import React from "react";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import CardItem from "../../common/CardItem/CardItem";
+import { mockup } from "./homeData";
+import { IProductState } from "src/redux/reducer/product.reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "src/redux/store/store";
+import { getProductCount } from "src/redux/action/product.action";
+import { IProductCountRes } from "src/shared/type/product.type";
 
 export default function Home() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const product = useSelector<StoreState, IProductState>(
+    (state) => state.product
+  );
 
+  async () => {
+    const result = ((await dispatch(
+      getProductCount()
+    )) as any) as IProductCountRes;
+  };
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -27,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: theme.spacing(2),
-      textAlign: 'center',
+      textAlign: "center",
       color: theme.palette.text.secondary,
     },
   })

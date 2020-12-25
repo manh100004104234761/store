@@ -54,8 +54,8 @@ export enum LOGOUT_KEYS {
 export const logout = () => (dispatch: Dispatch): Promise<LogoutRes> =>
   dispatchApi(dispatch, {
     //Fix logout
-    endpoint: '/auth/logout',
-    method: 'GET',
+    endpoint: '/users/action/logout.php',
+    method: 'post',
     types: Object.keys(LOGOUT_KEYS),
     body: {},
   });
@@ -70,8 +70,8 @@ export const getUserInfo = () => (
   dispatch: Dispatch
 ): Promise<GetUserInfoRes> =>
   dispatchApi(dispatch, {
-    endpoint: '/users/index.php',
-    method: 'GET',
+    endpoint: '/validateToken.php',
+    method: 'post',
     types: Object.keys(GET_USER_INFO_KEYS),
     body: {},
   });

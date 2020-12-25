@@ -16,6 +16,7 @@ import { StoreState } from "../../../redux/store/store";
 import { IUserState } from "../../../redux/reducer/user.reducer";
 import { useHistory } from "react-router-dom";
 import { login } from "../../../redux/action/user.action";
+import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 interface Props {}
 
@@ -37,6 +38,14 @@ const FieldArr: ILoginField[] = [
     label: "Mật khẩu",
   },
 ];
+
+function HomeIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
 
 function Copyright() {
   return (
@@ -98,8 +107,7 @@ export default function SignIn(props: Props) {
   const handleLogin = async () => {
     // Logic login here
     const result = ((await dispatch(login(valueForm))) as any) as LoginRes;
-    console.log(result);
-    if (result.result.jwt) {
+    if (result.data.jwt) {
       history.push("/");
     }
   };
@@ -114,9 +122,9 @@ export default function SignIn(props: Props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Button onClick={() => history.push("/")}>
+          <HomeIcon style={{ fontSize: 50 }} />
+        </Button>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>

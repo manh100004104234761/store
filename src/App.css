@@ -32,3 +32,60 @@ a {
   color: #a0a0a0;
   text-decoration: none;
 }
+
+/* image-viewer */
+.image-viewer-img-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 156px;
+  height: 156px;
+  background-color: #0000001a;
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+.image-viewer {
+  text-align: center;
+}
+
+.image-viewer-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+svg.image-viewer-img {
+  width: 100%;
+  height: 50%;
+}
+
+.image-viewer-actions {
+  margin-top: 8px;
+}
+.image-viewer-action-wrapper {
+  position: relative;
+}
+input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  font-size: 0px;
+  cursor: pointer;
+}
+
+.image-cropper {
+  min-width: 400px;
+}
+.image-cropper-viewer {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  background-color: #e8e8e8;
+  margin-bottom: 16px;
+}

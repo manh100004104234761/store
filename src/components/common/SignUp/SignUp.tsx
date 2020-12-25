@@ -17,12 +17,13 @@ import { register } from "../../../redux/action/user.action";
 import { TextColor } from "../../../shared/ultis/color";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
 import { FieldArr } from "./SignUpForm";
+import { ImageViewer } from "..";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
     width: "100%",
-    height: "100%",
+    padding: 20,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "64px 32px",
   },
   inputContainer: {
-    margin: "18px 0",
+    margin: "1px 2",
   },
 }));
 
@@ -70,14 +71,19 @@ export default function SingUp() {
     company: "",
     phone: "",
     confirm_password: "",
+    image: null,
   });
 
   const handleRegister = async () => {
     const result = ((await dispatch(
       register(valueForm as any)
     )) as any) as RegisterRes;
-    // if (result.status == 1);
-    history.push("/auth/sign-in");
+    if (result.status == true) {
+      history.push("/auth/sign-in");
+    }
+    if (result.status == false) {
+      history.push("/auth/sign-up");
+    }
   };
 
   useEffect(() => {
@@ -88,21 +94,21 @@ export default function SingUp() {
 
   return (
     <div className={classes.root}>
-      <Container component="main" maxWidth="sm">
+      <Container component="main" maxWidth="md">
         <Paper elevation={3} className={classes.padding}>
-          <Grid>
-            <Button onClick={() => history.push("/")}>
-              <HomeIcon style={{ fontSize: 50 }} />
-            </Button>
-            <Typography
-              variant="h4"
-              component="h3"
-              style={{ color: TextColor.blueDark }}
-            >
-              Đăng ký
-            </Typography>
-          </Grid>
           <div className={classes.margin}>
+            <Grid>
+              <Button onClick={() => history.push("/")}>
+                <HomeIcon style={{ fontSize: 50 }} />
+              </Button>
+              <Typography
+                variant="h5"
+                component="h6"
+                style={{ color: TextColor.blueDark }}
+              >
+                Đăng ký
+              </Typography>
+            </Grid>
             <Grid container>
               {FieldArr.map((field) => (
                 <Grid
@@ -127,6 +133,14 @@ export default function SingUp() {
                   />
                 </Grid>
               ))}
+              <Grid item xs={12} style={{ marginTop: "10px" }}>
+                <ImageViewer
+                  aspectRatio={4 / 3}
+                  onSave={(cropData: any) => {
+                    setValueForm({ ...valueForm, image: cropData });
+                  }}
+                />
+              </Grid>
             </Grid>
             <Grid item xs={12} style={{ marginTop: "10px" }}>
               <Button

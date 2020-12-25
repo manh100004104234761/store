@@ -21,13 +21,16 @@ export default function userReducer(
   action: any
 ): IUserState {
   switch (action.type) {
-    case userAction.REGISTER_KEYS.REGISTER_SUCCESS:
+    case userAction.REGISTER_KEYS.REGISTER_SUCCESS: {
+      return {
+        ...state
+      }
+    }
     case userAction.LOGIN_KEYS.LOGIN_SUCCESS: {
-      const isLoggedIn = !!(action.payload && action.payload.result);
+      const isLoggedIn = !!(action.payload && action.payload.data);
       if (isLoggedIn) {
-        console.log(action.payload);
-        const { result } = action.payload;
-        const { jwt, data } = result;
+        const { data } = action.payload;
+        const { jwt } = data;
         localStore.setItem(BOOK_TOKEN_KEY, jwt);
         //Tra ve state (tat ca), ben duoi la ghi de len
         return {
@@ -54,7 +57,7 @@ export default function userReducer(
       }
     case userAction.GET_USER_INFO_KEYS.GET_USER_INFO_SUCCESS: {
       const { data } = action.payload as GetUserInfoRes;
-      const user = data.user_profile;
+      const user = data;
       return {
         ...state,
         user,

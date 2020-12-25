@@ -39,7 +39,7 @@ export default function CardItem(props: Props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.item.name}
+            {props.item.product_name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.item.description}

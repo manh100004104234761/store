@@ -5,7 +5,7 @@ import { ErrorKeys } from '../action/error.action';
 import { LoadingKeys } from '../action/loading.action';
 
 export const CALL_API = 'CALL_API';
-const API_BASE_URL = 'http://localhost/project3Api/api/';
+const API_BASE_URL = 'http://baoquanhan:90/project3Api/api/';
 
 const callApi = async <R>(
   endpoint: string,
@@ -18,7 +18,7 @@ const callApi = async <R>(
     baseURL: API_BASE_URL,
     url,
     method,
-    headers: { Authorization: authToken ? `Bearer ${authToken}` : '' },
+    headers: { Authorization: authToken ? `${authToken}` : '' },
     ...body,
   });
 };
@@ -38,6 +38,7 @@ const apiMiddleware: Middleware = store => next => async <R>(
   // TODO: Fetch data
   const { endpoint, method, body } = (action as IApiAction)[CALL_API];
   try {
+    console.log(authToken)
     const response = (await callApi(
       endpoint,
       method,
@@ -53,17 +54,17 @@ const apiMiddleware: Middleware = store => next => async <R>(
   } catch (error) {
     console.error('error', error);
     console.error('error-response', error.response);
-    // let messages = error.response.data.message || error.message;
-    // if (typeof messages === 'string') {
-    //   messages = [messages];
-    // }
-    // next({ type: LoadingKeys.REMOVE_LOADING });
-    // next({
-    //   type: ErrorKeys.SET_ERROR,
-    //   payload: {
-    //     messages,
-    //   },
-    // });
+    let messages = error.response.data.message || error.message;
+    if (typeof messages === 'string') {
+      messages = [messages];
+    }
+    next({ type: LoadingKeys.REMOVE_LOADING });
+    next({
+      type: ErrorKeys.SET_ERROR,
+      payload: {
+        messages,
+      },
+    });
     return null;
   }
 };

@@ -83,6 +83,7 @@ export default function NavItem(navItemProps: NavItemProps) {
         aria-controls="fade-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        href={url}
       >
         {name}
       </Button>
