@@ -6,87 +6,48 @@ import {
   Paper,
   TextField,
   Typography,
-} from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { StoreState } from '../../../redux/store/store';
-import { IUserState } from '../../../redux/reducer/user.reducer';
-import { RegisterReq, RegisterRes } from '../../../shared/type/user.type';
-import { register } from '../../../redux/action/user.action';
-import { TextColor } from '../../../shared/ultis/color';
-import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
+} from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { StoreState } from "../../../redux/store/store";
+import { IUserState } from "../../../redux/reducer/user.reducer";
+import { RegisterReq, RegisterRes } from "../../../shared/type/user.type";
+import { register } from "../../../redux/action/user.action";
+import { TextColor } from "../../../shared/ultis/color";
+import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
+import { FieldArr } from "./SignUpForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    textAlign: 'center',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: 'linear-gradient(to right, #2980B9, #6DD5FA, #EDF3F6)',
+    textAlign: "center",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "linear-gradient(to right, #2980B9, #6DD5FA, #EDF3F6)",
   },
   margin: {
     margin: 12,
   },
   padding: {
-    padding: '64px 32px',
+    padding: "64px 32px",
   },
   inputContainer: {
-    margin: '18px 0',
+    margin: "18px 0",
   },
 }));
 
 function HomeIcon(props: SvgIconProps) {
   return (
     <SvgIcon {...props}>
-      <path d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' />
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
     </SvgIcon>
   );
 }
 
 interface Props {}
-
-export interface ILoginField {
-  name: string;
-  type: string;
-  label: string;
-}
-const FieldArr: ILoginField[] = [
-  {
-    name: 'user_name',
-    type: 'text',
-    label: 'User Name',
-  },
-  {
-    name: 'email',
-    type: 'text',
-    label: 'Email',
-  },
-  {
-    name: 'password',
-    type: 'password',
-    label: 'Password',
-  },
-  {
-    name: 'password_confirmation',
-    type: 'password',
-    label: 'Password Confirmation',
-  },
-];
-
-const initForm: RegisterReq = {
-  user_name: '',
-  first_name: '',
-  last_name: '',
-  birthday: '',
-  address: '',
-  email: '',
-  phone: '',
-  password: '',
-  password_confirmation: '',
-};
 
 export default function SingUp() {
   const classes = useStyles();
@@ -98,34 +59,44 @@ export default function SingUp() {
   const user = useSelector<StoreState, IUserState>((state) => state.user);
 
   // State
-  const [valueForm, setValueForm] = useState<RegisterReq>(initForm);
+  const [valueForm, setValueForm] = useState<RegisterReq>({
+    first_name: "",
+    last_name: "",
+    email: "",
+    username: "",
+    password: "",
+    city: "",
+    stress: "",
+    company: "",
+    phone: "",
+    confirm_password: "",
+  });
 
   const handleRegister = async () => {
     const result = ((await dispatch(
       register(valueForm as any)
     )) as any) as RegisterRes;
-    if (result.results.token) {
-      history.push('/');
-    }
+    // if (result.status == 1);
+    history.push("/auth/sign-in");
   };
 
   useEffect(() => {
     if (user.isLoggedIn) {
-      history.push('/');
+      history.push("/");
     }
   }, []);
 
   return (
     <div className={classes.root}>
-      <Container component='main' maxWidth='sm'>
+      <Container component="main" maxWidth="sm">
         <Paper elevation={3} className={classes.padding}>
           <Grid>
-            <Button onClick={() => history.push('/')}>
+            <Button onClick={() => history.push("/")}>
               <HomeIcon style={{ fontSize: 50 }} />
             </Button>
             <Typography
-              variant='h4'
-              component='h3'
+              variant="h4"
+              component="h3"
               style={{ color: TextColor.blueDark }}
             >
               Đăng ký
@@ -137,6 +108,7 @@ export default function SingUp() {
                 <Grid
                   item
                   xs={12}
+                  sm={6}
                   className={classes.inputContainer}
                   key={field.name}
                 >
@@ -144,7 +116,7 @@ export default function SingUp() {
                     {...field}
                     fullWidth
                     autoFocus
-                    variant='outlined'
+                    variant="outlined"
                     value={valueForm[field.name as keyof RegisterReq]}
                     onChange={(event) =>
                       setValueForm({
@@ -156,14 +128,14 @@ export default function SingUp() {
                 </Grid>
               ))}
             </Grid>
-            <Grid item xs={12} style={{ marginTop: '10px' }}>
+            <Grid item xs={12} style={{ marginTop: "10px" }}>
               <Button
-                variant='outlined'
-                color='primary'
+                variant="outlined"
+                color="primary"
                 fullWidth
                 onClick={handleRegister}
                 style={{
-                  textTransform: 'none',
+                  textTransform: "none",
                   padding: 6,
                 }}
               >
@@ -172,9 +144,9 @@ export default function SingUp() {
             </Grid>
           </div>
           <div style={{ marginTop: 24 }}>
-            <Link to='/auth/sign-in' style={{ color: TextColor.blueDark }}>
-              Đã là thành viên?{' '}
-              <b style={{ textDecorationLine: 'underline' }}>
+            <Link to="/auth/sign-in" style={{ color: TextColor.blueDark }}>
+              Đã là thành viên?{" "}
+              <b style={{ textDecorationLine: "underline" }}>
                 Đăng nhập tại đây!
               </b>
             </Link>

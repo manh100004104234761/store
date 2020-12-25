@@ -14,6 +14,7 @@ import {
 import { StoreState } from "../../../../../redux/store/store";
 import { IUserState } from "../../../../../redux/reducer/user.reducer";
 import { useSelector } from "react-redux";
+import { FieldArr } from "src/components/common/SignUp/SignUpForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -27,36 +28,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 interface Props {}
 
-const ProfileField = [
-  {
-    label: "First Name",
-    name: "firstName",
-  },
-  {
-    label: "Last Name",
-    name: "lastName",
-  },
-  {
-    label: "Email",
-    name: "email",
-  },
-  {
-    label: "Phone Number",
-    name: "phone",
-  },
-  {
-    label: "Address",
-    name: "address",
-  },
-];
-
 interface IStateValue {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  address: string;
-  birthday: string;
+  city: string;
+  stress: string;
+  company: string;
 }
 
 const Profile = (props: Props) => {
@@ -67,8 +46,9 @@ const Profile = (props: Props) => {
     lastName: user.user?.last_name! || "",
     email: user.user?.email! || "",
     phone: user.user?.phone! || "",
-    address: user.user?.address! || "",
-    birthday: user.user?.birthday! || "",
+    city: user.user?.city! || "",
+    stress: user.user?.stress! || "",
+    company: user.user?.company! || "",
   });
 
   const handleChange = (event: any) => {
@@ -88,7 +68,7 @@ const Profile = (props: Props) => {
           <Divider />
           <CardContent>
             <Grid container spacing={4}>
-              {ProfileField.map((field) => (
+              {FieldArr.map((field) => (
                 <Grid key={field.name} item md={6} xs={12}>
                   <TextField
                     {...field}

@@ -5,7 +5,7 @@ import { ErrorKeys } from '../action/error.action';
 import { LoadingKeys } from '../action/loading.action';
 
 export const CALL_API = 'CALL_API';
-const API_BASE_URL = 'http://www.salebook.local/api';
+const API_BASE_URL = 'http://localhost/project3Api/api/';
 
 const callApi = async <R>(
   endpoint: string,
@@ -35,7 +35,6 @@ const apiMiddleware: Middleware = store => next => async <R>(
 
   // TODO: Loading when fetch data
   next({ type: LoadingKeys.SET_LOADING });
-
   // TODO: Fetch data
   const { endpoint, method, body } = (action as IApiAction)[CALL_API];
   try {
@@ -54,17 +53,17 @@ const apiMiddleware: Middleware = store => next => async <R>(
   } catch (error) {
     console.error('error', error);
     console.error('error-response', error.response);
-    let messages = error.response.data.message || error.message;
-    if (typeof messages === 'string') {
-      messages = [messages];
-    }
-    next({ type: LoadingKeys.REMOVE_LOADING });
-    next({
-      type: ErrorKeys.SET_ERROR,
-      payload: {
-        messages,
-      },
-    });
+    // let messages = error.response.data.message || error.message;
+    // if (typeof messages === 'string') {
+    //   messages = [messages];
+    // }
+    // next({ type: LoadingKeys.REMOVE_LOADING });
+    // next({
+    //   type: ErrorKeys.SET_ERROR,
+    //   payload: {
+    //     messages,
+    //   },
+    // });
     return null;
   }
 };

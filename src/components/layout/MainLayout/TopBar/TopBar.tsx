@@ -20,8 +20,12 @@ import Badge from "@material-ui/core/Badge";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CompareIcon from "@material-ui/icons/Compare";
-
-let isUser = true;
+import { IUserState } from "src/redux/reducer/user.reducer";
+import { StoreState } from "src/redux/store/store";
+import { useSelector } from "react-redux";
+import { logout } from "src/redux/action/user.action";
+import { useDispatch } from "react-redux";
+import { BOOK_TOKEN_KEY, localStore } from "src/lib/storage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -92,8 +96,10 @@ function HomeIcon(props: SvgIconProps) {
   );
 }
 
-const TopBar = ({ onMobileNavOpen }: any) => {
+const TopBar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -108,7 +114,8 @@ const TopBar = ({ onMobileNavOpen }: any) => {
 
   const logOut = () => {
     handleMenuClose();
-    isUser = !isUser;
+    localStore.removeItem(BOOK_TOKEN_KEY);
+    // dispatch(logout());
   };
 
   const menuId = "primary-search-account-menu";
@@ -136,9 +143,10 @@ const TopBar = ({ onMobileNavOpen }: any) => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-            onClick={onMobileNavOpen}
           >
-            <HomeIcon style={{ fontSize: 40 }} />
+            <a href="\" className={classes.badge}>
+              <HomeIcon style={{ fontSize: 40 }} />
+            </a>
           </IconButton>
           <Button color="inherit">
             <Typography variant="h6">News</Typography>
@@ -160,10 +168,18 @@ const TopBar = ({ onMobileNavOpen }: any) => {
             />
           </div>
           <div className={classes.authButton}>
-            {!isUser ? (
+            {!user.isLoggedIn ? (
               <div>
-                <Button color="inherit">Login</Button>
-                <Button color="inherit">Sign in</Button>
+                <Button color="inherit">
+                  <a href="\auth\sign-in" className={classes.badge}>
+                    Sign in
+                  </a>
+                </Button>
+                <Button color="inherit">
+                  <a href="\auth\sign-up" className={classes.badge}>
+                    Sign up
+                  </a>
+                </Button>
               </div>
             ) : (
               <div className={classes.userContainer}>
@@ -192,7 +208,7 @@ const TopBar = ({ onMobileNavOpen }: any) => {
                 </IconButton>
                 <div style={{ marginLeft: 10, width: 150, textAlign: "right" }}>
                   <Typography noWrap display="block">
-                    Mạnh Nguyễn
+                    {user.user?.username}
                   </Typography>
                 </div>
                 <IconButton
@@ -203,14 +219,14 @@ const TopBar = ({ onMobileNavOpen }: any) => {
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  <Avatar alt="Manh Nguyen" src="./avatar.jpg" />
+                  <Avatar alt={user.user?.username} />
                 </IconButton>
               </div>
             )}
           </div>
         </Toolbar>
       </AppBar>
-      {!isUser ? null : renderMenu}
+      {!user.isLoggedIn ? null : renderMenu}
     </div>
   );
 };

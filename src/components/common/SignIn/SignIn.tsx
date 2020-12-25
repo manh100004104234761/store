@@ -98,7 +98,8 @@ export default function SignIn(props: Props) {
   const handleLogin = async () => {
     // Logic login here
     const result = ((await dispatch(login(valueForm))) as any) as LoginRes;
-    if (result.results.token) {
+    console.log(result);
+    if (result.result.jwt) {
       history.push("/");
     }
   };

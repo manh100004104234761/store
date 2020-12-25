@@ -12,7 +12,7 @@ export const register = (info: RegisterReq) => (
   dispatch: Dispatch
 ): Promise<RegisterRes> =>
   dispatchApi(dispatch, {
-    endpoint: '/auth/sign-up',
+    endpoint: '/users/index.php',
     method: 'post',
     types: Object.keys(REGISTER_KEYS),
     body: {
@@ -29,7 +29,7 @@ export const login = (info: LoginReq) => (
   dispatch: Dispatch
 ): Promise<LoginRes> =>
   dispatchApi(dispatch, {
-    endpoint: '/auth/sign-in',
+    endpoint: '/users/action/login.php',
     method: 'post',
     types: Object.keys(LOGIN_KEYS),
     body: {
@@ -53,6 +53,7 @@ export enum LOGOUT_KEYS {
 
 export const logout = () => (dispatch: Dispatch): Promise<LogoutRes> =>
   dispatchApi(dispatch, {
+    //Fix logout
     endpoint: '/auth/logout',
     method: 'GET',
     types: Object.keys(LOGOUT_KEYS),
@@ -69,7 +70,7 @@ export const getUserInfo = () => (
   dispatch: Dispatch
 ): Promise<GetUserInfoRes> =>
   dispatchApi(dispatch, {
-    endpoint: '/auth/user',
+    endpoint: '/users/index.php',
     method: 'GET',
     types: Object.keys(GET_USER_INFO_KEYS),
     body: {},
