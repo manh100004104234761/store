@@ -21,3 +21,14 @@ export interface IProductCountRes {
   message: string;
   data: IProductCount
 }
+
+export interface IProductPerPageRes {
+  status: boolean;
+  message: string;
+  data: IProductDetail[]
+}
+
+export interface IProductPerPageReq {
+  num_per_page: string;
+  page: string;
+}

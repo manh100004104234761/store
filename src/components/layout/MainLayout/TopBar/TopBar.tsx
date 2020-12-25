@@ -213,7 +213,9 @@ const TopBar = () => {
                     badgeContent={4}
                     color="secondary"
                   >
-                    <ShoppingCartIcon />
+                    <a href="\cart" className={classes.badge}>
+                      <ShoppingCartIcon />
+                    </a>
                   </Badge>
                 </IconButton>
                 <div style={{ marginLeft: 10, width: 150, textAlign: "right" }}>

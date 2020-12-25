@@ -9,7 +9,7 @@ export interface IProductState {
 };
 
 const initialState: IProductState = {
-  page: 0,
+  page: 1,
   products: [],
   productCount: {
     count: 0
@@ -28,6 +28,13 @@ export default function productReducer(
         ...state,
         productCount: data,
         totalPage: (data.count/9 + 1)
+      }
+    }
+    case productAction.GETPRODUCTSPERPAGE_KEY.GETPRODUCTSPERPAGE_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        products: data
       }
     }
     default:

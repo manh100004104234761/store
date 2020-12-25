@@ -10,10 +10,10 @@ import AddToCompare from "./components/AddToCompare/AddToCompare";
 import AddToCart from "./components/AddToCart/AddToCart";
 import AddToFavorite from "./components/AddToFavorite/AddToFavorite";
 import Detail from "./components/Detail/Detail";
-import { Product } from "src/shared/type/product.type";
+import { IProductDetail } from "src/shared/type/product.type";
 
 interface Props {
-  item: Product;
+  item: IProductDetail;
 }
 
 const useStyles = makeStyles({
@@ -43,6 +43,9 @@ export default function CardItem(props: Props) {
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.item.description}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.item.price}
           </Typography>
         </CardContent>
       </CardActionArea>
