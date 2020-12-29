@@ -23,7 +23,7 @@ export const Root: React.FunctionComponent = (props: Props) => {
           <FreeRoute exact path="/" component={Home} />
           <FreeRoute
             exact
-            path="/item-detail/:productId"
+            path="/product-detail/:productId"
             component={ItemDetail}
           />
           <FreeRoute exact path="/news" component={New} />

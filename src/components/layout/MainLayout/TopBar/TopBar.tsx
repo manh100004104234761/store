@@ -243,10 +243,11 @@ const TopBar = () => {
                 <IconButton aria-label="cart" onClick={handleCart}>
                   <Badge
                     className={classes.badge}
-                    badgeContent={user.cart.reduce(
-                      (a, b) => a + Number(b.qty),
-                      0
-                    )}
+                    badgeContent={
+                      !user.isLoggedIn
+                        ? 0
+                        : user.cart.reduce((a, b) => a + Number(b.qty), 0)
+                    }
                     color="secondary"
                   >
                     <ShoppingCartIcon />
