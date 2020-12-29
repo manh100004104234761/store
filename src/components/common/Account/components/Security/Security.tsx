@@ -11,6 +11,12 @@ import {
   TextField,
   colors,
 } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePassword } from "src/redux/action/user.action";
+import { StoreState } from "src/redux/store/store";
+import { IUserState } from "src/redux/reducer/user.reducer";
+import { UpdatePasswordReq } from "src/shared/type/user.type";
+import { setSuccessNoti } from "src/redux/action/success.action";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -26,34 +32,60 @@ interface Props {}
 
 const SecurityField = [
   {
-    label: "Password",
-    name: "password",
+    label: "Old Password",
+    name: "old_password",
   },
   {
-    label: "Password Confirm",
-    name: "password_confirm",
+    label: "New Password",
+    name: "new_password",
+  },
+  {
+    label: "New Password Confirm",
+    name: "confirm_password",
   },
 ];
 
 interface IStateValue {
-  password: string;
-  password_confirm: string;
+  new_password: string;
+  old_password: string;
+  confirm_password: string;
 }
 
 const Security = (props: Props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
+
   const [values, setValues] = useState<IStateValue>({
-    password: "",
-    password_confirm: "",
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
   });
 
-  const valid = values.password && values.password === values.password_confirm;
+  const valid =
+    values.new_password && values.new_password === values.confirm_password;
 
   const handleChange = (event: any) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleUpdatePassword = async () => {
+    try {
+      const valueSubmit: UpdatePasswordReq = {
+        ...values,
+      };
+      const result = await dispatch(updatePassword(valueSubmit));
+      console.log(
+        "🚀 ~ file: Security.tsx ~ line 82 ~ handleUpdatePassword ~ result",
+        result
+      );
+      if (Boolean(result)) {
+        await dispatch(setSuccessNoti("Cập nhật mật khẩu thành công"));
+      }
+    } catch (er) {}
   };
   return (
     <Card>
@@ -63,7 +95,7 @@ const Security = (props: Props) => {
         <form>
           <Grid container spacing={3}>
             {SecurityField.map((field) => (
-              <Grid key={field.name} item md={6} sm={6} xs={12}>
+              <Grid key={field.name} item xs={12}>
                 <TextField
                   fullWidth
                   {...field}
@@ -83,6 +115,7 @@ const Security = (props: Props) => {
           className={classes.saveButton}
           variant="contained"
           disabled={!valid}
+          onClick={handleUpdatePassword}
         >
           Save changes
         </Button>

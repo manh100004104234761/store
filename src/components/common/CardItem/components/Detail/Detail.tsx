@@ -1,6 +1,12 @@
 import React, { Fragment } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import {
+  IProductDetailReq,
+  IProductDetailRes,
+} from "src/shared/type/product.type";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,14 +29,26 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface Props {
+  product_id: string;
+}
+
 //To do: Add logic add to cart
 
-export default function Detail() {
+export default function Detail(props: Props) {
   const classes = useStyles();
+  const history = useHistory();
+
+  // get UserState from useReducer
+  const handleDetail = async () => {
+    history.push(`/product-detail/${props.product_id}`);
+  };
 
   return (
     <Fragment>
-      <Button className={classes.root}>Chi tiết</Button>
+      <Button className={classes.root} onClick={handleDetail}>
+        Chi tiết
+      </Button>
     </Fragment>
   );
 }

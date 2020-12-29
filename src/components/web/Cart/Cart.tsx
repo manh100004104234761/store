@@ -18,6 +18,10 @@ import React, { useState } from "react";
 import { getDisplayCurrency } from "../../../shared/ultis/intl.utils";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Title from "../../common/Title/Title";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { StoreState } from "src/redux/store/store";
+import { IUserState } from "src/redux/reducer/user.reducer";
 
 const useStyles = makeStyles({
   table: {},
@@ -56,8 +60,14 @@ interface Props {}
 
 // TODO: Convert to map => define Item type
 const Cart = (props: Props) => {
-  const [cart, updateCart] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
+
   const classes = useStyles();
+
+  const handleCheckout = () => {};
 
   return (
     <div>
@@ -86,71 +96,41 @@ const Cart = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell align="center" className={classes.nameContainer}>
-                <img
-                  className={classes.imgStyle}
-                  src={`${process.env.PUBLIC_URL}/images/harrypotter.jpg`}
-                />
-                <Typography style={{ marginLeft: 12 }}>Iphone12</Typography>
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                {getDisplayCurrency(12000000)}
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                <IconButton>
-                  <AddIcon />
-                </IconButton>
-                <Typography>2</Typography>
-                <IconButton>
-                  <RemoveIcon />
-                </IconButton>
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                {getDisplayCurrency(24000000)}
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                <IconButton>
-                  <Tooltip title="Xóa sản phẩm">
-                    <DeleteIcon />
-                  </Tooltip>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell align="center" className={classes.nameContainer}>
-                <img
-                  className={classes.imgStyle}
-                  src={`${process.env.PUBLIC_URL}/images/c5.jpg`}
-                />
-                <Typography style={{ marginLeft: 12 }}>
-                  Harry potter and the Philosopher's Stone
-                </Typography>
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                {getDisplayCurrency(250000)}
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                <IconButton>
-                  <AddIcon />
-                </IconButton>
-                <Typography>2</Typography>
-                <IconButton>
-                  <RemoveIcon />
-                </IconButton>
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                {getDisplayCurrency(500000)}
-              </TableCell>
-              <TableCell align="center" style={{ width: "15%" }}>
-                <IconButton>
-                  <Tooltip title="Xóa sản phẩm">
-                    <DeleteIcon />
-                  </Tooltip>
-                </IconButton>
-              </TableCell>
-            </TableRow>
+            {user.cart.map((item) => (
+              <TableRow>
+                <TableCell align="center" className={classes.nameContainer}>
+                  <img
+                    className={classes.imgStyle}
+                    src={`${process.env.PUBLIC_URL}/images/harrypotter.jpg`}
+                  />
+                  <Typography style={{ marginLeft: 12 }}>
+                    {item.product_name}
+                  </Typography>
+                </TableCell>
+                <TableCell align="center" style={{ width: "15%" }}>
+                  {getDisplayCurrency(Number(item.price))}
+                </TableCell>
+                <TableCell align="center" style={{ width: "15%" }}>
+                  <IconButton>
+                    <AddIcon />
+                  </IconButton>
+                  <Typography>{item.qty}</Typography>
+                  <IconButton>
+                    <RemoveIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell align="center" style={{ width: "15%" }}>
+                  {getDisplayCurrency(Number(item.price) * Number(item.qty))}
+                </TableCell>
+                <TableCell align="center" style={{ width: "15%" }}>
+                  <IconButton>
+                    <Tooltip title="Xóa sản phẩm">
+                      <DeleteIcon />
+                    </Tooltip>
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -160,6 +140,7 @@ const Cart = (props: Props) => {
           variant="outlined"
           className={classes.buttonPlace}
           color="inherit"
+          onClick={handleCheckout}
         >
           Đặt hàng
         </Button>

@@ -1,6 +1,8 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
-import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes } from '../../shared/type/user.type';
+import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes, UpdatePasswordReq } from '../../shared/type/user.type';
+import { IGetCartDetailRes } from 'src/shared/type/cart.type';
+import { IProductDetailReq } from 'src/shared/type/product.type';
 
 
 export enum REGISTER_KEYS {
@@ -13,7 +15,7 @@ export const register = (info: RegisterReq) => (
 ): Promise<RegisterRes> =>
   dispatchApi(dispatch, {
     endpoint: '/users/index.php',
-    method: 'post',
+    method: 'POST',
     types: Object.keys(REGISTER_KEYS),
     body: {
       data: info,
@@ -70,8 +72,80 @@ export const getUserInfo = () => (
   dispatch: Dispatch
 ): Promise<GetUserInfoRes> =>
   dispatchApi(dispatch, {
-    endpoint: '/validateToken.php',
-    method: 'post',
+    endpoint: '/users/index.php',
+    method: 'GET',
     types: Object.keys(GET_USER_INFO_KEYS),
     body: {},
   });
+
+
+export enum UPDATE_USER_INFO_KEYS {
+  UPDATE_USER_INFO_REQ = 'UPDATE_USER_INFO_REQ',
+  UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS',
+  UPDATE_USER_INFO_FAILURE = 'UPDATE_USER_INFO_FAILURE',
+}
+
+export const updateUserInfo = (info: any) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/users/index.php',
+    method: 'PUT',
+    types: Object.keys(UPDATE_USER_INFO_KEYS),
+    body: {
+      data: info,
+    },
+  });
+
+
+export enum UPDATE_PASSWORD_USER_KEYS {
+  UPDATE_PASSWORD_USER_REQ = 'UPDATE_PASSWORD_USER_REQ',
+  UPDATE_PASSWORD_USER_SUCCESS = 'UPDATE_PASSWORD_USER_SUCCESS',
+  UPDATE_PASSWORD_USER_FAILURE = 'UPDATE_PASSWORD_USER_FAILURE',
+}
+
+export const updatePassword = (info: UpdatePasswordReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/users/action/changePassword.php',
+    method: 'POST',
+    types: Object.keys(UPDATE_PASSWORD_USER_KEYS),
+    body: {
+      data: info,
+    },
+  });
+
+export enum GET_CART_DETAIL_KEYS {
+  GET_CART_DETAIL_REQ = 'GET_CART_DETAIL_REQ',
+  GET_CART_DETAIL_SUCCESS = 'GET_CART_DETAIL_SUCCESS',
+  GET_CART_DETAIL_FAILURE = 'GET_CART_DETAIL_FAILURE',
+}
+
+export const getCartDetail = () => (
+  dispatch: Dispatch
+): Promise<IGetCartDetailRes> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/getCart.php',
+    method: 'GET',
+    types: Object.keys(GET_CART_DETAIL_KEYS),
+    body: {}
+  })
+
+export enum ADD_TO_CART_KEYS {
+  ADD_TO_CART_REQ = 'ADD_TO_CART_REQ',
+  ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS',
+  ADD_TO_CART_FAILURE = 'ADD_TO_CART_FAILURE',
+}
+
+export const addProductToCart = (product_id: IProductDetailReq) => (
+  dispatch: Dispatch
+): Promise<IGetCartDetailRes> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/addToCart.php',
+    method: 'POST',
+    types: Object.keys(ADD_TO_CART_KEYS),
+    body: {
+      data: product_id
+    }
+  })

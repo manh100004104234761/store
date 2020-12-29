@@ -1,6 +1,6 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
-import { IProductCountRes, IProductPerPageReq, IProductPerPageRes } from 'src/shared/type/product.type';
+import { IProductCountRes, IProductDetailReq, IProductPerPageReq, IProductPerPageRes, searchProductByNameReq } from 'src/shared/type/product.type';
 
 export enum GETPRODUCTCOUNT_KEY{
   GETPRODUCTCOUNT_REQ = 'GETPRODUCTCOUNT_REQ',
@@ -28,10 +28,64 @@ export const getProductPerPage = (page : IProductPerPageReq) => (
   dispatch: Dispatch
 ) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
   endpoint: '/products/action/getLatest.php',
-  // method = GET thi khong co body dau bro,
   method: 'post',
   types: Object.keys(GETPRODUCTSPERPAGE_KEY),
   body: {
     data: page,
+  }
+})
+
+
+export enum GETPRODUCTDETAIL_KEY{
+  GETPRODUCTDETAIL_REQ = 'GETPRODUCTDETAIL_REQ',
+  GETPRODUCTDETAIL_SUCCESS = 'GETPRODUCTDETAIL_SUCCESS',
+  GETPRODUCTDETAIL_FAILURE = 'GETPRODUCTDETAIL_FAILURE',
+}
+
+
+export const getProductDetail = (product_id : IProductDetailReq) => (
+  dispatch: Dispatch
+) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
+  endpoint: '/products/index.php',
+  method: 'POST',
+  types: Object.keys(GETPRODUCTDETAIL_KEY),
+  body: {
+    data: product_id,
+  }
+})
+
+
+export enum GETALLCATEGORY_KEY{
+  GETALLCATEGORY_REQ = 'GETALLCATEGORY_REQ',
+  GETALLCATEGORY_SUCCESS = 'GETALLCATEGORY_SUCCESS',
+  GETALLCATEGORY_FAILURE = 'GETALLCATEGORY_FAILURE',
+}
+
+
+export const getAllCategory = () => (
+  dispatch: Dispatch
+) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
+  endpoint: '/products/action/getAllCategory.php',
+  method: 'GET',
+  types: Object.keys(GETALLCATEGORY_KEY),
+  body: {}
+})
+
+
+export enum SEARCH_PRODUCT_BY_NAME_KEY{
+  SEARCH_PRODUCT_BY_NAME_REQ = 'SEARCH_PRODUCT_BY_NAME_REQ',
+  SEARCH_PRODUCT_BY_NAME_SUCCESS = 'SEARCH_PRODUCT_BY_NAME_SUCCESS',
+  SEARCH_PRODUCT_BY_NAME_FAILURE = 'SEARCH_PRODUCT_BY_NAME_FAILURE',
+}
+
+
+export const searchProductByName = (productName: searchProductByNameReq) => (
+  dispatch: Dispatch
+) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
+  endpoint: '/products/action/searchProduct.php',
+  method: 'POST',
+  types: Object.keys(GETALLCATEGORY_KEY),
+  body: {
+    data: productName
   }
 })

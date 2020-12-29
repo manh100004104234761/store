@@ -25,6 +25,8 @@ export const PrivateRoute: React.FC<Props> = (props: Props) => {
     }
   }, [user]);
 
+  console.log(user.isLoggedIn);
+
   // true replace by isAuthenticated()
   return (
     <Route

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -13,8 +13,13 @@ import {
 } from "@material-ui/core";
 import { StoreState } from "../../../../../redux/store/store";
 import { IUserState } from "../../../../../redux/reducer/user.reducer";
-import { useSelector } from "react-redux";
-import { FieldArr } from "src/components/common/SignUp/SignUpForm";
+import { useDispatch, useSelector } from "react-redux";
+import { FieldArr2 } from "src/components/common/SignUp/SignUpForm";
+import { UpdateUserReq } from "src/shared/type/user.type";
+import { getUserInfo, updateUserInfo } from "src/redux/action/user.action";
+import { setSuccessNoti } from "src/redux/action/success.action";
+import { ImageViewer } from "src/components/common";
+import { ImageProfileUrl } from "src/shared/ultis/intl.utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -28,29 +33,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 interface Props {}
 
-interface IStateValue {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  city: string;
-  stress: string;
-  company: string;
-}
-
 const Profile = (props: Props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const user = useSelector<StoreState, IUserState>((state) => state.user);
-  const [values, setValues] = useState<IStateValue>({
-    firstName: user.user?.first_name! || "",
-    lastName: user.user?.last_name! || "",
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = (await dispatch(getUserInfo())) as any;
+        if (result.status) {
+          user.user = result.data;
+        }
+      } catch (err) {}
+    })();
+  }, [user.isLoggedIn]);
+
+  const [values, setValues] = useState<UpdateUserReq>({
+    username: user.user?.username! || "",
+    first_name: user.user?.first_name! || "",
+    last_name: user.user?.last_name! || "",
     email: user.user?.email! || "",
     phone: user.user?.phone! || "",
     city: user.user?.city! || "",
-    stress: user.user?.stress! || "",
+    street: user.user?.street! || "",
     company: user.user?.company! || "",
+    image: null,
   });
-
   const handleChange = (event: any) => {
     setValues({
       ...values,
@@ -58,7 +67,31 @@ const Profile = (props: Props) => {
     });
   };
 
-  const handleSaveProfile = (event: any) => {};
+  const handleSaveProfile = async (event: any) => {
+    try {
+      let formData = new FormData();
+      formData.append("image", values.image);
+      formData.append("username", values.username);
+      formData.append("email", values.email);
+      formData.append("first_name", values.first_name);
+      formData.append("last_name", values.last_name);
+      formData.append("phone", values.phone);
+      formData.append("city", values.city);
+      formData.append("stress", values.street);
+      formData.append("company", values.company);
+
+      let result;
+      if (values.image) {
+        result = await dispatch(updateUserInfo(formData));
+      } else {
+        result = await dispatch(updateUserInfo(values));
+      }
+      if (Boolean(result)) {
+        dispatch(setSuccessNoti("Thay đổi thông tin thành công"));
+        await dispatch(getUserInfo());
+      }
+    } catch (err) {}
+  };
 
   return (
     <Grid container>
@@ -68,18 +101,27 @@ const Profile = (props: Props) => {
           <Divider />
           <CardContent>
             <Grid container spacing={4}>
-              {FieldArr.map((field) => (
+              {FieldArr2.map((field) => (
                 <Grid key={field.name} item md={6} xs={12}>
                   <TextField
                     {...field}
                     fullWidth
                     onChange={handleChange}
                     required
-                    value={values[field.name as keyof IStateValue]}
+                    value={values[field.name as keyof UpdateUserReq]}
                     variant="outlined"
                   />
                 </Grid>
               ))}
+              <Grid item xs={12} style={{ marginTop: "10px" }}>
+                <ImageViewer
+                  src={`${ImageProfileUrl}/small/${user.user?.image}`}
+                  aspectRatio={4 / 3}
+                  onSave={(cropData: any) => {
+                    setValues({ ...values, image: cropData });
+                  }}
+                />
+              </Grid>
             </Grid>
           </CardContent>
           <Divider />

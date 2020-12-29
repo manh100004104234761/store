@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   fade,
   createStyles,
@@ -23,11 +23,13 @@ import CompareIcon from "@material-ui/icons/Compare";
 import { IUserState } from "src/redux/reducer/user.reducer";
 import { StoreState } from "src/redux/store/store";
 import { useSelector } from "react-redux";
-import { logout } from "src/redux/action/user.action";
+import { getCartDetail, logout } from "src/redux/action/user.action";
 import { useDispatch } from "react-redux";
 import { getAllNews } from "src/redux/action/new.action";
 import { INewRes } from "src/shared/type/new.type";
 import { useHistory } from "react-router-dom";
+import { IGetCartDetailRes } from "src/shared/type/cart.type";
+import { IProductState } from "src/redux/reducer/product.reducer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,6 +107,15 @@ const TopBar = () => {
 
   const user = useSelector<StoreState, IUserState>((state) => state.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const product = useSelector<StoreState, IProductState>(
+    (state) => state.product
+  );
+
+  const handleSearchProduct = async (event: any) => {
+    if (value) {
+      history.push(`/search-product/${value}`);
+    }
+  };
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -115,7 +126,16 @@ const TopBar = () => {
   const handleGetNews = async () => {
     const result = ((await dispatch(getAllNews())) as any) as INewRes;
     if (result.status == true) {
-      history.push("./news");
+      history.push("/news");
+    }
+  };
+
+  const handleCart = async () => {
+    const result = ((await dispatch(
+      getCartDetail()
+    )) as any) as IGetCartDetailRes;
+    if (result.status) {
+      history.push("/cart");
     }
   };
 
@@ -123,9 +143,21 @@ const TopBar = () => {
     setAnchorEl(null);
   };
 
+  const Profile = () => {
+    handleMenuClose();
+    history.push("/account");
+  };
+
   const logOut = () => {
     handleMenuClose();
     dispatch(logout());
+    history.push("/");
+  };
+
+  const [value, setValue] = useState<string>("");
+
+  const handleChange = (event: any) => {
+    setValue(event.target.value);
   };
 
   const menuId = "primary-search-account-menu";
@@ -139,7 +171,7 @@ const TopBar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={Profile}>Profile</MenuItem>
       <MenuItem onClick={logOut}>Log out</MenuItem>
     </Menu>
   );
@@ -164,7 +196,7 @@ const TopBar = () => {
           <div className={classes.search}>
             <IconButton
               className={classes.searchIcon}
-              onClick={() => console.log("clickSearch")}
+              onClick={handleSearchProduct}
             >
               <SearchIcon />
             </IconButton>
@@ -175,6 +207,7 @@ const TopBar = () => {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={handleChange}
             />
           </div>
           <div className={classes.authButton}>
@@ -207,15 +240,16 @@ const TopBar = () => {
                     <FavoriteIcon />
                   </Badge>
                 </IconButton>
-                <IconButton aria-label="cart">
+                <IconButton aria-label="cart" onClick={handleCart}>
                   <Badge
                     className={classes.badge}
-                    badgeContent={4}
+                    badgeContent={user.cart.reduce(
+                      (a, b) => a + Number(b.qty),
+                      0
+                    )}
                     color="secondary"
                   >
-                    <a href="\cart" className={classes.badge}>
-                      <ShoppingCartIcon />
-                    </a>
+                    <ShoppingCartIcon />
                   </Badge>
                 </IconButton>
                 <div style={{ marginLeft: 10, width: 150, textAlign: "right" }}>

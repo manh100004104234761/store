@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo, persistToken } from "./redux/action/user.action";
+import {
+  getCartDetail,
+  getUserInfo,
+  persistToken,
+} from "./redux/action/user.action";
 import { IUserState } from "./redux/reducer/user.reducer";
 import { StoreState } from "./redux/store/store";
 
@@ -24,6 +28,7 @@ function App(props: Props) {
   useEffect(() => {
     if (user.isLoggedIn) {
       dispatch(getUserInfo());
+      dispatch(getCartDetail());
     }
   }, [user.isLoggedIn]);
 

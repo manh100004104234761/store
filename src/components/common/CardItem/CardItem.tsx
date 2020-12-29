@@ -50,10 +50,10 @@ export default function CardItem(props: Props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <AddToCart />
+        <AddToCart product_id={props.item.product_id} />
         <AddToCompare />
         <AddToFavorite />
-        <Detail />
+        <Detail product_id={props.item.product_id} />
       </CardActions>
     </Card>
   );

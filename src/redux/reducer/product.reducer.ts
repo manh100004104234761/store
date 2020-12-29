@@ -5,7 +5,8 @@ export interface IProductState {
   page : number,
   products : IProductDetail[],
   productCount: IProductCount,
-  totalPage: number
+  totalPage: number,
+  isLoadedCategory: boolean
 };
 
 const initialState: IProductState = {
@@ -14,7 +15,8 @@ const initialState: IProductState = {
   productCount: {
     count: 0
   },
-  totalPage: 0
+  totalPage: 0,
+  isLoadedCategory: false
 };
 
 export default function productReducer(
@@ -27,10 +29,31 @@ export default function productReducer(
       return {
         ...state,
         productCount: data,
-        totalPage: (data.count/9 + 1)
+        totalPage: (data.count/9)
       }
     }
     case productAction.GETPRODUCTSPERPAGE_KEY.GETPRODUCTSPERPAGE_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        products: data
+      }
+    }
+    case productAction.GETPRODUCTDETAIL_KEY.GETPRODUCTDETAIL_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        products: data
+      }
+    }
+    case productAction.GETALLCATEGORY_KEY.GETALLCATEGORY_SUCCESS: {
+      const { status } = action.payload;
+      return {
+        ...state,
+        isLoadedCategory: status
+      }
+    }
+    case productAction.SEARCH_PRODUCT_BY_NAME_KEY.SEARCH_PRODUCT_BY_NAME_SUCCESS: {
       const { data } = action.payload;
       return {
         ...state,

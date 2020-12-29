@@ -67,7 +67,7 @@ export default function SingUp() {
     username: "",
     password: "",
     city: "",
-    stress: "",
+    street: "",
     company: "",
     phone: "",
     confirm_password: "",

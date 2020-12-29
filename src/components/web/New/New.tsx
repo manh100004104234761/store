@@ -28,6 +28,7 @@ const New = () => {
             <div className={classes.new}>
               <Typography variant="h5">{item.title}</Typography>
               <div>{item.short_content}</div>
+              <div>{item.content}</div>
             </div>
           </>
         );

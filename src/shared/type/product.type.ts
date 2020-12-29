@@ -1,15 +1,23 @@
+export interface IReview {
+  image: any;
+  username: string;
+  content: string;
+}
+
 export interface IProductDetail {
-  image: string;
+  product_id: string;
+  image: any;
   product_name: string;
   description: string;
-  price: string
-  brand?: string,
-  size?: string,
-  color?: number,
-  resolution?: string,
-  ram?: string,
-  cpu?: string,
-  weight?: string
+  price: string;
+  brand?: string;
+  size?: string;
+  color?: number;
+  resolution?: string;
+  ram?: string;
+  cpu?: string;
+  weight?: string;
+  review?: IReview[]
 }
 
 export interface IProductCount {
@@ -31,4 +39,32 @@ export interface IProductPerPageRes {
 export interface IProductPerPageReq {
   num_per_page: string;
   page: string;
+}
+
+
+export interface IProductDetailReq {
+  product_id : string;
+}
+
+
+export interface IProductDetailRes {
+  status: boolean;
+  message: string;
+  data: IProductDetail
+}
+
+export interface ICategory {
+  category_id: string;
+  name: string;
+  parentId: string
+}
+
+export interface IGetAllCategoryRes {
+  status: boolean;
+  message: string;
+  data: ICategory[]
+}
+
+export interface searchProductByNameReq {
+  product_name: string;
 }

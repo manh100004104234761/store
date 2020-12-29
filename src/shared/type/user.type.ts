@@ -15,7 +15,7 @@ export interface IUser {
   username: string;
   password: string;
   city: string;
-  stress: string;
+  street: string;
   company: string;
   phone: string;
   user_id?: number;
@@ -56,4 +56,23 @@ export interface GetUserInfoRes {
   status: boolean;
   message: string;
   data: IUser;
+}
+
+export interface UpdateUserReq{
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  city: string;
+  street: string;
+  company: string;
+  phone: string;
+  image?: any;
+}
+
+
+export interface UpdatePasswordReq {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
 }
