@@ -244,7 +244,7 @@ const TopBar = () => {
                   <Badge
                     className={classes.badge}
                     badgeContent={
-                      !user.isLoggedIn
+                      !user.cart
                         ? 0
                         : user.cart.reduce((a, b) => a + Number(b.qty), 0)
                     }

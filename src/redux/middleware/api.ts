@@ -5,7 +5,7 @@ import { ErrorKeys } from '../action/error.action';
 import { LoadingKeys } from '../action/loading.action';
 
 export const CALL_API = 'CALL_API';
-const API_BASE_URL = 'http://localhost/project3Api/api/';
+const API_BASE_URL = 'http://baoquanhan:90/project3Api/api/';
 
 const callApi = async <R>(
   endpoint: string,

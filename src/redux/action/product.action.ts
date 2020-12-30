@@ -28,7 +28,7 @@ export const getProductPerPage = (page : IProductPerPageReq) => (
   dispatch: Dispatch
 ) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
   endpoint: '/products/action/getLatest.php',
-  method: 'post',
+  method: 'POST',
   types: Object.keys(GETPRODUCTSPERPAGE_KEY),
   body: {
     data: page,

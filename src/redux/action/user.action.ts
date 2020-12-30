@@ -89,8 +89,8 @@ export const updateUserInfo = (info: any) => (
   dispatch: Dispatch
 ): Promise<any> =>
   dispatchApi(dispatch, {
-    endpoint: '/users/index.php',
-    method: 'PUT',
+    endpoint: '/users/action/updateUser.php',
+    method: 'POST',
     types: Object.keys(UPDATE_USER_INFO_KEYS),
     body: {
       data: info,
