@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { ICartItem, IGetCartDetailRes } from 'src/shared/type/cart.type';
+import { IGetWishlistDetailRes, IWishlistItem } from 'src/shared/type/wishlist.type';
 import { BOOK_TOKEN_KEY, localStore } from '../../lib/storage';
 import { ITokenDecode, GetUserInfoRes, IUser } from '../../shared/type/user.type';
 import * as userAction from '../action/user.action';
@@ -10,13 +11,15 @@ export interface IUserState {
   user?: IUser;
   loadedInfo: boolean;
   cart: ICartItem[];
+  wishList: IWishlistItem[];
 }
 
 const initialState: IUserState = {
   authToken: '',
   isLoggedIn: false,
   loadedInfo: false,
-  cart: []
+  cart: [],
+  wishList: []
 };
 
 export default function userReducer(
@@ -96,7 +99,23 @@ export default function userReducer(
         cart: items,
       }
     }
-
+    case userAction.ADD_TO_CART_KEYS.ADD_TO_CART_SUCCESS: {
+      return {
+        ...state
+      }
+    }
+    case userAction.GET_WISHLIST_KEYS.GET_WISHLIST_SUCCESS: {
+      const { data } = action.payload as IGetWishlistDetailRes;
+      return{
+        ...state,
+        wishList: data,
+      }
+    }
+    case userAction.GET_WISHLIST_KEYS.GET_WISHLIST_SUCCESS: {
+     return {
+       ...state
+     }
+    }
     default:
       return state;
   }

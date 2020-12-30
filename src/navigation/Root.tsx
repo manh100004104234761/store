@@ -6,6 +6,7 @@ import { FreeRoute, PrivateRoute } from "./RouteLayout";
 import { createBrowserHistory } from "history";
 import App from "../App";
 import New from "src/components/web/New/New";
+import WishList from "src/components/web/WishList/WishList";
 // import { ListOrder, ListUser } from "src/components/cms";
 
 interface Props {}
@@ -36,9 +37,10 @@ export const Root: React.FunctionComponent = (props: Props) => {
           <FreeRoute exact path="/list-users" component={ListUser} /> */}
 
           {/* User PrivateRoute */}
-          <FreeRoute exact path="/account" component={Account} />
-          <FreeRoute exact path="/cart" component={Cart} />
-          <FreeRoute exact path="/checkout" component={Checkout} />
+          <PrivateRoute exact path="/account" component={Account} />
+          <PrivateRoute exact path="/cart" component={Cart} />
+          <PrivateRoute exact path="/wishlist" component={WishList} />
+          <PrivateRoute exact path="/checkout" component={Checkout} />
         </Switch>
       </App>
     </Router>

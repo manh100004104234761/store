@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getCartDetail,
   getUserInfo,
+  getWishList,
   persistToken,
 } from "./redux/action/user.action";
 import { IUserState } from "./redux/reducer/user.reducer";
@@ -29,6 +30,7 @@ function App(props: Props) {
     if (user.isLoggedIn) {
       dispatch(getUserInfo());
       dispatch(getCartDetail());
+      dispatch(getWishList());
     }
   }, [user.isLoggedIn]);
 

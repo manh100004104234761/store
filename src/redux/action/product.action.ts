@@ -1,6 +1,6 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
-import { IProductCountRes, IProductDetailReq, IProductPerPageReq, IProductPerPageRes, searchProductByNameReq } from 'src/shared/type/product.type';
+import { IProductCountRes, IProductIDReq, IProductPerPageReq, IProductPerPageRes, searchProductByNameReq } from 'src/shared/type/product.type';
 
 export enum GETPRODUCTCOUNT_KEY{
   GETPRODUCTCOUNT_REQ = 'GETPRODUCTCOUNT_REQ',
@@ -43,7 +43,7 @@ export enum GETPRODUCTDETAIL_KEY{
 }
 
 
-export const getProductDetail = (product_id : IProductDetailReq) => (
+export const getProductDetail = (product_id : IProductIDReq) => (
   dispatch: Dispatch
 ) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
   endpoint: '/products/index.php',

@@ -23,13 +23,18 @@ import CompareIcon from "@material-ui/icons/Compare";
 import { IUserState } from "src/redux/reducer/user.reducer";
 import { StoreState } from "src/redux/store/store";
 import { useSelector } from "react-redux";
-import { getCartDetail, logout } from "src/redux/action/user.action";
+import {
+  getCartDetail,
+  getWishList,
+  logout,
+} from "src/redux/action/user.action";
 import { useDispatch } from "react-redux";
 import { getAllNews } from "src/redux/action/new.action";
 import { INewRes } from "src/shared/type/new.type";
 import { useHistory } from "react-router-dom";
 import { IGetCartDetailRes } from "src/shared/type/cart.type";
 import { IProductState } from "src/redux/reducer/product.reducer";
+import { IGetWishlistDetailRes } from "src/shared/type/wishlist.type";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -139,6 +144,15 @@ const TopBar = () => {
     }
   };
 
+  const handleWishList = async () => {
+    const result = ((await dispatch(
+      getWishList()
+    )) as any) as IGetWishlistDetailRes;
+    if (result.status) {
+      history.push("/wishlist");
+    }
+  };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -231,10 +245,10 @@ const TopBar = () => {
                     <CompareIcon />
                   </Badge>
                 </IconButton>
-                <IconButton aria-label="favorite">
+                <IconButton aria-label="favorite" onClick={handleWishList}>
                   <Badge
                     className={classes.badge}
-                    badgeContent={2}
+                    badgeContent={!user.wishList ? 0 : user.wishList.length}
                     color="secondary"
                   >
                     <FavoriteIcon />

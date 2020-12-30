@@ -2,10 +2,7 @@ import React, { Fragment } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
-import {
-  IProductDetailReq,
-  IProductDetailRes,
-} from "src/shared/type/product.type";
+import { IProductIDReq, IProductDetailRes } from "src/shared/type/product.type";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>

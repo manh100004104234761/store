@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Title from "../../common/Title/Title";
 import {
   IProductDetail,
-  IProductDetailReq,
+  IProductIDReq,
   IProductDetailRes,
 } from "src/shared/type/product.type";
 import { useDispatch } from "react-redux";
@@ -31,7 +31,7 @@ export default function ItemDetail(props: Props) {
   const [product, setproduct] = useState<IProductDetail>({} as IProductDetail);
 
   const productId = props.match.params.productId;
-  let productDetailReq: IProductDetailReq = {
+  let productDetailReq: IProductIDReq = {
     product_id: productId,
   };
 

@@ -5,7 +5,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "src/redux/store/store";
 import { IUserState } from "src/redux/reducer/user.reducer";
-import { IProductDetailReq } from "src/shared/type/product.type";
+import { IProductIDReq } from "src/shared/type/product.type";
 import { addProductToCart } from "src/redux/action/user.action";
 import { IGetCartDetailRes } from "src/shared/type/cart.type";
 import { useHistory } from "react-router-dom";
@@ -43,7 +43,7 @@ export default function AddToCart(props: Props) {
 
   // get UserState from useReducer
   const handleAddToCart = async () => {
-    let addToCartReq: IProductDetailReq = {
+    let addToCartReq: IProductIDReq = {
       product_id: props.product_id,
     };
     const result = ((await dispatch(

@@ -2,7 +2,8 @@ import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
 import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes, UpdatePasswordReq } from '../../shared/type/user.type';
 import { IGetCartDetailRes } from 'src/shared/type/cart.type';
-import { IProductDetailReq } from 'src/shared/type/product.type';
+import { IProductIDReq } from 'src/shared/type/product.type';
+import { IGetWishlistDetailRes } from 'src/shared/type/wishlist.type';
 
 
 export enum REGISTER_KEYS {
@@ -138,13 +139,48 @@ export enum ADD_TO_CART_KEYS {
   ADD_TO_CART_FAILURE = 'ADD_TO_CART_FAILURE',
 }
 
-export const addProductToCart = (product_id: IProductDetailReq) => (
+export const addProductToCart = (product_id: IProductIDReq) => (
   dispatch: Dispatch
 ): Promise<IGetCartDetailRes> =>
   dispatchApi(dispatch, {
     endpoint: '/cart/action/addToCart.php',
     method: 'POST',
     types: Object.keys(ADD_TO_CART_KEYS),
+    body: {
+      data: product_id
+    }
+  })
+
+export enum GET_WISHLIST_KEYS {
+  GET_WISHLIST_REQ = 'GET_WISHLIST_REQ',
+  GET_WISHLIST_SUCCESS = 'GET_WISHLIST_SUCCESS',
+  GET_WISHLIST_FAILURE = 'GET_WISHLIST_FAILURE',
+}
+
+export const getWishList = () => (
+  dispatch: Dispatch
+): Promise<IGetWishlistDetailRes> =>
+  dispatchApi(dispatch, {
+    endpoint: '/users/action/getWishList.php',
+    method: 'GET',
+    types: Object.keys(GET_WISHLIST_KEYS),
+    body: {}
+  })
+
+
+export enum ADD_TO_WISHLIST_KEYS {
+  ADD_TO_WISHLIST_REQ = 'ADD_TO_WISHLIST_REQ',
+  ADD_TO_WISHLIST_SUCCESS = 'ADD_TO_WISHLIST_SUCCESS',
+  ADD_TO_WISHLIST_FAILURE = 'ADD_TO_WISHLIST_FAILURE',
+}
+
+export const addProductToWishList = (product_id: IProductIDReq) => (
+  dispatch: Dispatch
+): Promise<IGetWishlistDetailRes> =>
+  dispatchApi(dispatch, {
+    endpoint: '/users/action/addWishLish.php',
+    method: 'POST',
+    types: Object.keys(ADD_TO_WISHLIST_KEYS),
     body: {
       data: product_id
     }

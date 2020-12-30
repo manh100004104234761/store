@@ -42,7 +42,7 @@ export interface IProductPerPageReq {
 }
 
 
-export interface IProductDetailReq {
+export interface IProductIDReq {
   product_id : string;
 }
 
