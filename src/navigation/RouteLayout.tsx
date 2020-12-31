@@ -23,9 +23,7 @@ export const PrivateRoute: React.FC<Props> = (props: Props) => {
     if (!user.isLoggedIn) {
       history.push("/auth/sign-in");
     }
-  }, [user]);
-
-  console.log(user.isLoggedIn);
+  }, [user.isLoggedIn]);
 
   // true replace by isAuthenticated()
   return (

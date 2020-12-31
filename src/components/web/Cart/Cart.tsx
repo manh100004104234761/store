@@ -22,6 +22,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { StoreState } from "src/redux/store/store";
 import { IUserState } from "src/redux/reducer/user.reducer";
+import { IProductIDReq } from "src/shared/type/product.type";
+import {
+  addProductToCart,
+  deleteProductFromCart,
+  removeOneProductFromCart,
+} from "src/redux/action/user.action";
+import { IGetCartDetailRes } from "src/shared/type/cart.type";
 
 const useStyles = makeStyles({
   table: {},
@@ -64,6 +71,40 @@ const Cart = (props: Props) => {
   const history = useHistory();
 
   const user = useSelector<StoreState, IUserState>((state) => state.user);
+
+  const handleAddToCart = (id: string) => async () => {
+    let addToCartReq: IProductIDReq = {
+      product_id: id,
+    };
+    const result = (await dispatch(addProductToCart(addToCartReq))) as any;
+    if (result.status) {
+      history.go(0);
+    }
+  };
+
+  const handleRemoveOneProductFromCart = (id: string) => async () => {
+    let removeFromCartReq: IProductIDReq = {
+      product_id: id,
+    };
+    const result = (await dispatch(
+      removeOneProductFromCart(removeFromCartReq)
+    )) as any;
+    if (result.status) {
+      history.go(0);
+    }
+  };
+
+  const handleDeleteProductFromCart = (id: string) => async () => {
+    let deleteFromCartReq: IProductIDReq = {
+      product_id: id,
+    };
+    const result = (await dispatch(
+      deleteProductFromCart(deleteFromCartReq)
+    )) as any;
+    if (result.status) {
+      history.go(0);
+    }
+  };
 
   const classes = useStyles();
 
@@ -111,19 +152,23 @@ const Cart = (props: Props) => {
                   {getDisplayCurrency(Number(item.price))}
                 </TableCell>
                 <TableCell align="center" style={{ width: "15%" }}>
-                  <IconButton>
+                  <IconButton onClick={handleAddToCart(item.product_id)}>
                     <AddIcon />
                   </IconButton>
                   <Typography>{item.qty}</Typography>
                   <IconButton>
-                    <RemoveIcon />
+                    <RemoveIcon
+                      onClick={handleRemoveOneProductFromCart(item.product_id)}
+                    />
                   </IconButton>
                 </TableCell>
                 <TableCell align="center" style={{ width: "15%" }}>
                   {getDisplayCurrency(Number(item.price) * Number(item.qty))}
                 </TableCell>
                 <TableCell align="center" style={{ width: "15%" }}>
-                  <IconButton>
+                  <IconButton
+                    onClick={handleDeleteProductFromCart(item.product_id)}
+                  >
                     <Tooltip title="Xóa sản phẩm">
                       <DeleteIcon />
                     </Tooltip>

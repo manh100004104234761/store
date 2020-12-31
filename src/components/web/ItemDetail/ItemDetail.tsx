@@ -12,6 +12,7 @@ import {
 } from "src/shared/type/product.type";
 import { useDispatch } from "react-redux";
 import { getProductDetail } from "src/redux/action/product.action";
+import { comment } from "src/redux/action/user.action";
 
 interface Props {
   match: any;
@@ -29,6 +30,22 @@ export default function ItemDetail(props: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [product, setproduct] = useState<IProductDetail>({} as IProductDetail);
+
+  const [binhluan, setBinhluan] = useState<string>("");
+  const handleChange = (event: any) => {
+    setBinhluan(event.target.value);
+  };
+
+  const handleComment = async (event: any) => {
+    let commentReq = {
+      product_id: product.product_id,
+      content: binhluan,
+    };
+    const result = (await dispatch(comment(commentReq))) as any;
+    if (result.status) {
+      window.location.reload();
+    }
+  };
 
   const productId = props.match.params.productId;
   let productDetailReq: IProductIDReq = {
@@ -49,6 +66,7 @@ export default function ItemDetail(props: Props) {
   }, []);
 
   if (Object.values(product).length === 0) {
+    console.log("Ec");
     return <div />;
   }
   return (
@@ -68,22 +86,23 @@ export default function ItemDetail(props: Props) {
         </Grid>
         <Grid item xs={8}>
           <div>Thông số</div>
-          {Object.entries(product).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-              return <div />;
-            } else
-              return (
+          {product.values &&
+            product.values.map(
+              (value) => (
                 <div>
-                  <h3>{key}</h3>
-                  <h2>{value}</h2>
+                  <h3>{value.name}</h3>
+                  <h2>{value.value}</h2>
                 </div>
-              );
-          })}
+              )
+              // {
+              //   !Array.isArray(value) ? console.log(key) : console.log(value);
+              // }
+            )}
           <div>Bình luận</div>
-          {product.review?.map((review) => (
+          {product.review?.map((ireview) => (
             <div>
-              <h3>review.username</h3>
-              <h2>review.content</h2>
+              <h3>{ireview.username}</h3>
+              <h2>{ireview.content}</h2>
             </div>
           ))}
           <div>
@@ -91,8 +110,11 @@ export default function ItemDetail(props: Props) {
               id="outlined-basic"
               variant="outlined"
               label="Binh luan"
+              onChange={handleChange}
             />
-            <Button variant="contained">Bình luận</Button>
+            <Button variant="contained" onClick={handleComment}>
+              Bình luận
+            </Button>
           </div>
         </Grid>
       </Grid>

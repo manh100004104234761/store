@@ -1,29 +1,69 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField, { TextFieldProps } from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { fields } from './addressFields';
+import React, { useEffect, useState } from "react";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { fields } from "./addressFields";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "src/redux/store/store";
+import { IUserState } from "src/redux/reducer/user.reducer";
+import { getUserInfo } from "src/redux/action/user.action";
+import { makeOderReq, UpdateUserReq } from "src/shared/type/user.type";
 
 export default function AddressForm() {
+  const dispatch = useDispatch();
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = (await dispatch(getUserInfo())) as any;
+        if (result.status) {
+          user.user = result.data;
+        }
+      } catch (err) {}
+    })();
+  }, [user.isLoggedIn]);
+
+  const [values, setValues] = useState<makeOderReq>({
+    username: user.user?.username! || "",
+    first_name: user.user?.first_name! || "",
+    last_name: user.user?.last_name! || "",
+    phone: user.user?.phone! || "",
+    city: user.user?.city! || "",
+    street: user.user?.street! || "",
+  });
+
+  const handleChange = (event: any) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   return (
     <React.Fragment>
-      <Typography variant='h6' gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
       <Grid container spacing={3}>
         {fields.map((field) => (
           <Grid key={field.id} item xs={12}>
-            <TextField {...field} />
+            <TextField
+              {...field}
+              onChange={handleChange}
+              required
+              value={values[field.name as keyof makeOderReq]}
+            />
           </Grid>
         ))}
         <Grid item xs={12}>
           <FormControlLabel
             control={
-              <Checkbox color='secondary' name='saveAddress' value='yes' />
+              <Checkbox color="secondary" name="saveAddress" value="yes" />
             }
-            label='Use this address for payment details'
+            label="Use this address for payment details"
           />
         </Grid>
       </Grid>

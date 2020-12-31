@@ -9,6 +9,7 @@ import {
   createStyles,
   Theme,
 } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 const StyledMenu = withStyles({
   paper: {
@@ -63,6 +64,7 @@ export default function NavItem(navItemProps: NavItemProps) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const history = useHistory();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (data) {
@@ -70,6 +72,10 @@ export default function NavItem(navItemProps: NavItemProps) {
     } else {
       // TODO Return trang chu
     }
+  };
+
+  const handleClickItems = (url: string) => () => {
+    history.push(url);
   };
 
   const handleClose = () => {
@@ -99,7 +105,9 @@ export default function NavItem(navItemProps: NavItemProps) {
         >
           {data.map((item) => (
             <MenuItem>
-              <Button href={item.urlItem}>{item.nameItem}</Button>
+              <Button onClick={handleClickItems(item.urlItem)}>
+                {item.nameItem}
+              </Button>
             </MenuItem>
           ))}
         </StyledMenu>

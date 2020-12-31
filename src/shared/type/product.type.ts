@@ -4,20 +4,27 @@ export interface IReview {
   content: string;
 }
 
+export interface Properti {
+  attribute_id: string;
+  name: string;
+  value: string;
+  attribute_value_id: string;
+  product_id: string;
+}
+
 export interface IProductDetail {
   product_id: string;
+  attribute_set_id?: string;
   image: any;
   product_name: string;
   description: string;
+  qty?: string;
+  selled?: string;
+  created_at?: string;
+  updated_at?: string;
   price: string;
-  brand?: string;
-  size?: string;
-  color?: number;
-  resolution?: string;
-  ram?: string;
-  cpu?: string;
-  weight?: string;
   review?: IReview[]
+  values?: Properti[]
 }
 
 export interface IProductCount {
@@ -44,6 +51,11 @@ export interface IProductPerPageReq {
 
 export interface IProductIDReq {
   product_id : string;
+}
+
+export interface IProductReviewReq {
+  product_id : string;
+  content: string;
 }
 
 

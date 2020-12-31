@@ -2,7 +2,7 @@ import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
 import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes, UpdatePasswordReq } from '../../shared/type/user.type';
 import { IGetCartDetailRes } from 'src/shared/type/cart.type';
-import { IProductIDReq } from 'src/shared/type/product.type';
+import { IProductIDReq, IProductReviewReq } from 'src/shared/type/product.type';
 import { IGetWishlistDetailRes } from 'src/shared/type/wishlist.type';
 
 
@@ -141,11 +141,47 @@ export enum ADD_TO_CART_KEYS {
 
 export const addProductToCart = (product_id: IProductIDReq) => (
   dispatch: Dispatch
-): Promise<IGetCartDetailRes> =>
+): Promise<any> =>
   dispatchApi(dispatch, {
     endpoint: '/cart/action/addToCart.php',
     method: 'POST',
     types: Object.keys(ADD_TO_CART_KEYS),
+    body: {
+      data: product_id
+    }
+  })
+
+export enum REMOVE_ONE_PRODUCT_KEYS {
+  REMOVE_ONE_PRODUCT_REQ = 'REMOVE_ONE_PRODUCT_REQ',
+  REMOVE_ONE_PRODUCT_SUCCESS = 'REMOVE_ONE_PRODUCT_SUCCESS',
+  REMOVE_ONE_PRODUCT_FAILURE = 'REMOVE_ONE_PRODUCT_FAILURE',
+}
+
+export const removeOneProductFromCart = (product_id: IProductIDReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/removeProductFromCart.php',
+    method: 'POST',
+    types: Object.keys(REMOVE_ONE_PRODUCT_KEYS),
+    body: {
+      data: product_id
+    }
+  })
+
+export enum DELETE_PRODUCT_FROM_CART_KEYS {
+  DELETE_PRODUCT_FROM_CART_REQ = 'DELETE_PRODUCT_FROM_CART_REQ',
+  DELETE_PRODUCT_FROM_CART_SUCCESS = 'DELETE_PRODUCT_FROM_CART_SUCCESS',
+  DELETE_PRODUCT_FROM_CART_FAILURE = 'DELETE_PRODUCT_FROM_CART_FAILURE',
+}
+
+export const deleteProductFromCart = (product_id: IProductIDReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/removeProductFromCart.php',
+    method: 'POST',
+    types: Object.keys(DELETE_PRODUCT_FROM_CART_KEYS),
     body: {
       data: product_id
     }
@@ -176,7 +212,7 @@ export enum ADD_TO_WISHLIST_KEYS {
 
 export const addProductToWishList = (product_id: IProductIDReq) => (
   dispatch: Dispatch
-): Promise<IGetWishlistDetailRes> =>
+): Promise<any> =>
   dispatchApi(dispatch, {
     endpoint: '/users/action/addWishLish.php',
     method: 'POST',
@@ -185,3 +221,40 @@ export const addProductToWishList = (product_id: IProductIDReq) => (
       data: product_id
     }
   })
+
+export enum DELETE_PRODUCT_FROM_WISHLIST_KEYS {
+  DELETE_PRODUCT_FROM_WISHLIST_REQ = 'DELETE_PRODUCT_FROM_WISHLIST_REQ',
+  DELETE_PRODUCT_FROM_WISHLIST_SUCCESS = 'DELETE_PRODUCT_FROM_WISHLIST_SUCCESS',
+  DELETE_PRODUCT_FROM_WISHLIST_FAILURE = 'DELETE_PRODUCT_FROM_WISHLIST_FAILURE',
+}
+
+export const deleteProductFromWishList = (product_id: IProductIDReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/users/action/deleteFromWishList.php',
+    method: 'POST',
+    types: Object.keys(DELETE_PRODUCT_FROM_WISHLIST_KEYS),
+    body: {
+      data: product_id
+    }
+  })
+
+
+  export enum COMMENT_KEYS {
+    COMMENT_REQ = 'COMMENT_REQ',
+    COMMENT_SUCCESS = 'COMMENT_SUCCESS',
+    COMMENT_FAILURE = 'COMMENT_FAILURE',
+  }
+
+  export const comment = (review: IProductReviewReq) => (
+    dispatch: Dispatch
+  ): Promise<any> =>
+    dispatchApi(dispatch, {
+      endpoint: '/products/action/addReview.php',
+      method: 'POST',
+      types: Object.keys(COMMENT_KEYS),
+      body: {
+        data: review
+      }
+    })

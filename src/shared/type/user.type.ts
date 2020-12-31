@@ -70,6 +70,15 @@ export interface UpdateUserReq{
   image?: any;
 }
 
+export interface makeOderReq{
+  first_name: string;
+  last_name: string;
+  username: string;
+  city: string;
+  street: string;
+  phone: string;
+}
+
 
 export interface UpdatePasswordReq {
   old_password: string;

@@ -4,7 +4,7 @@ export const fields: TextFieldProps[] = [
   {
     required: true,
     id: 'firstName',
-    name: 'firstName',
+    name: 'first_name',
     label: 'First name',
     fullWidth: true,
     autoComplete: 'given-name',
@@ -12,7 +12,7 @@ export const fields: TextFieldProps[] = [
   {
     required: true,
     id: 'lastName',
-    name: 'lastName',
+    name: 'last_name',
     label: 'Last name',
     fullWidth: true,
     autoComplete: 'family-name',
@@ -20,8 +20,8 @@ export const fields: TextFieldProps[] = [
   {
     required: true,
     id: 'address',
-    name: 'address',
-    label: 'Address',
+    name: 'stress',
+    label: 'Street',
     fullWidth: true,
     autoComplete: 'shipping address-line',
   },
@@ -36,8 +36,8 @@ export const fields: TextFieldProps[] = [
   {
     required: true,
     id: 'phoneNumber',
-    name: 'phoneNumber',
-    label: 'Phone Number',
+    name: 'phone',
+    label: 'Phone',
     fullWidth: true,
   },
 ];

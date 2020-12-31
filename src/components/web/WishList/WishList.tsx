@@ -20,6 +20,11 @@ import { useHistory } from "react-router-dom";
 import { StoreState } from "src/redux/store/store";
 import { IUserState } from "src/redux/reducer/user.reducer";
 import { ShoppingCart } from "@material-ui/icons";
+import { IProductIDReq } from "src/shared/type/product.type";
+import {
+  addProductToCart,
+  deleteProductFromWishList,
+} from "src/redux/action/user.action";
 
 const useStyles = makeStyles({
   table: {},
@@ -65,6 +70,28 @@ const WishList = (props: Props) => {
 
   const classes = useStyles();
 
+  const handleAddToCart = (id: string) => async () => {
+    let addToCartReq: IProductIDReq = {
+      product_id: id,
+    };
+    const result = (await dispatch(addProductToCart(addToCartReq))) as any;
+    if (result.status) {
+      window.location.reload();
+    }
+  };
+
+  const handleDeleteFromWishlist = (id: string) => async () => {
+    let deleteFromWishlistReq: IProductIDReq = {
+      product_id: id,
+    };
+    const result = (await dispatch(
+      deleteProductFromWishList(deleteFromWishlistReq)
+    )) as any;
+    if (result.status) {
+      window.location.reload();
+    }
+  };
+
   const handleCheckout = () => {};
 
   return (
@@ -97,14 +124,16 @@ const WishList = (props: Props) => {
                   </Typography>
                 </TableCell>
                 <TableCell align="center" style={{ width: "15%" }}>
-                  <IconButton>
+                  <IconButton onClick={handleAddToCart(item.product_id)}>
                     <Tooltip title="Thêm vào giỏ hàng">
                       <ShoppingCart />
                     </Tooltip>
                   </IconButton>
                 </TableCell>
                 <TableCell align="center" style={{ width: "15%" }}>
-                  <IconButton>
+                  <IconButton
+                    onClick={handleDeleteFromWishlist(item.product_id)}
+                  >
                     <Tooltip title="Xóa sản phẩm">
                       <DeleteIcon />
                     </Tooltip>

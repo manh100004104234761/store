@@ -50,6 +50,24 @@ export default function userReducer(
         isLoggedIn,
       };
     }
+    case userAction.PERSIST_TOKEN_TO_STORE_KEYS
+    .PERSIST_TOKEN_TO_STORE_SUCCESS: {
+      const token = localStore.getItem(BOOK_TOKEN_KEY);
+      if (token) {
+        const infoToken = jwtDecode(token) as ITokenDecode;
+        const isLoggedIn = infoToken.exp > Date.now() / 1000;
+        return { ...state, isLoggedIn, authToken: token, loadedInfo: true };
+      }
+      return state;
+    }
+    case userAction.GET_USER_INFO_KEYS.GET_USER_INFO_SUCCESS: {
+      const { data } = action.payload as GetUserInfoRes;
+      const user = data;
+      return {
+        ...state,
+        user,
+      };
+    }
     case userAction.UPDATE_USER_INFO_KEYS.UPDATE_USER_INFO_SUCCESS: {
       const isLoggedIn = !!(action.payload && action.payload.data);
       if (isLoggedIn) {
@@ -67,24 +85,6 @@ export default function userReducer(
       return {
         ...state,
         isLoggedIn,
-      };
-    }
-    case userAction.PERSIST_TOKEN_TO_STORE_KEYS
-      .PERSIST_TOKEN_TO_STORE_SUCCESS: {
-        const token = localStore.getItem(BOOK_TOKEN_KEY);
-        if (token) {
-          const infoToken = jwtDecode(token) as ITokenDecode;
-          const isLoggedIn = infoToken.exp > Date.now() / 1000;
-          return { ...state, isLoggedIn, authToken: token, loadedInfo: true };
-        }
-        return state;
-      }
-    case userAction.GET_USER_INFO_KEYS.GET_USER_INFO_SUCCESS: {
-      const { data } = action.payload as GetUserInfoRes;
-      const user = data;
-      return {
-        ...state,
-        user,
       };
     }
     case userAction.LOGOUT_KEYS.LOGOUT_SUCCESS: {

@@ -31,7 +31,7 @@ const UserItems: NavItemProps[] = [
       },
       {
         nameItem: "Sản phẩm ưa thích",
-        urlItem: "/favorite",
+        urlItem: "/wishlist",
       },
       {
         nameItem: "Lịch sử đơn hàng",
