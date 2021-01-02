@@ -122,6 +122,10 @@ const TopBar = () => {
     }
   };
 
+  const handleCompare = () => {
+    history.push("/compare");
+  };
+
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -240,8 +244,16 @@ const TopBar = () => {
               </div>
             ) : (
               <div className={classes.userContainer}>
-                <IconButton aria-label="compare">
-                  <Badge className={classes.badge} color="secondary">
+                <IconButton aria-label="compare" onClick={handleCompare}>
+                  <Badge
+                    className={classes.badge}
+                    badgeContent={
+                      !product.productsToCompare
+                        ? 0
+                        : product.productsToCompare.length
+                    }
+                    color="secondary"
+                  >
                     <CompareIcon />
                   </Badge>
                 </IconButton>

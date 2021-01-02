@@ -92,8 +92,6 @@ const WishList = (props: Props) => {
     }
   };
 
-  const handleCheckout = () => {};
-
   return (
     <div>
       <Title title="Sản phẩm ưa thích" subTitle="Sản phẩm ưa thích của bạn" />

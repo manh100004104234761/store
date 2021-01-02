@@ -89,3 +89,22 @@ export const searchProductByName = (productName: searchProductByNameReq) => (
     data: productName
   }
 })
+
+
+export enum GETPRODUCT_TO_COMPARE_KEY{
+  GETPRODUCT_TO_COMPARE_REQ = 'GETPRODUCT_TO_COMPARE_REQ',
+  GETPRODUCT_TO_COMPARE_SUCCESS = 'GETPRODUCT_TO_COMPARE_SUCCESS',
+  GETPRODUCT_TO_COMPARE_FAILURE = 'GETPRODUCT_TO_COMPARE_FAILURE',
+}
+
+
+export const getProductToCompare = (product_id : IProductIDReq) => (
+  dispatch: Dispatch
+) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
+  endpoint: '/products/index.php',
+  method: 'POST',
+  types: Object.keys(GETPRODUCT_TO_COMPARE_KEY),
+  body: {
+    data: product_id,
+  }
+})

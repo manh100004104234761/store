@@ -10,6 +10,10 @@ export interface ICartItem {
   price: string;
 }
 
+export interface ICart {
+  cart: ICartItem[]
+}
+
 export interface IGetCartDetailRes{
   status: boolean;
   message: string;

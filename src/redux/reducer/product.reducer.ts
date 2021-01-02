@@ -6,7 +6,8 @@ export interface IProductState {
   products : IProductDetail[],
   productCount: IProductCount,
   totalPage: number,
-  isLoadedCategory: boolean
+  isLoadedCategory: boolean,
+  productsToCompare?: IProductDetail[]
 };
 
 const initialState: IProductState = {
@@ -58,6 +59,21 @@ export default function productReducer(
       return {
         ...state,
         products: data
+      }
+    }
+    case productAction.GETPRODUCT_TO_COMPARE_KEY.GETPRODUCT_TO_COMPARE_SUCCESS: {
+      const { data } = action.payload;
+      let products: IProductDetail[] = [];
+      if (state.productsToCompare && state.productsToCompare[state.productsToCompare.length-1]){
+        products.push(state.productsToCompare[state.productsToCompare.length-1]);
+        products.push(data)
+      } else {
+        products.push(data)
+        console.log(data)
+      }
+      return {
+        ...state,
+        productsToCompare: products
       }
     }
     default:

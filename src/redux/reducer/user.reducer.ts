@@ -12,6 +12,7 @@ export interface IUserState {
   loadedInfo: boolean;
   cart: ICartItem[];
   wishList: IWishlistItem[];
+  orders: (ICartItem[])[]
 }
 
 const initialState: IUserState = {
@@ -19,7 +20,8 @@ const initialState: IUserState = {
   isLoggedIn: false,
   loadedInfo: false,
   cart: [],
-  wishList: []
+  wishList: [],
+  orders: []
 };
 
 export default function userReducer(

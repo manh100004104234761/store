@@ -1,7 +1,14 @@
 import React from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { SignIn, SignUp, Account } from "../components/common";
-import { ItemDetail, Cart, Home, Checkout, Search } from "../components/web";
+import {
+  ItemDetail,
+  Cart,
+  Home,
+  Checkout,
+  Search,
+  Compare,
+} from "../components/web";
 import { FreeRoute, PrivateRoute } from "./RouteLayout";
 import { createBrowserHistory } from "history";
 import App from "../App";
@@ -33,6 +40,7 @@ export const Root: React.FunctionComponent = (props: Props) => {
             path="/search-product/:searchName"
             component={Search}
           />
+          <FreeRoute exact path="/compare" component={Compare} />
           {/* <FreeRoute exact path="/list-orders" component={ListOrder} />
           <FreeRoute exact path="/list-users" component={ListUser} /> */}
 

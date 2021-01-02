@@ -2,6 +2,9 @@ import React, { Fragment } from "react";
 import Button from "@material-ui/core/Button";
 import CompareIcon from "@material-ui/icons/Compare";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { IProductIDReq } from "src/shared/type/product.type";
+import { getProductToCompare } from "src/redux/action/product.action";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,14 +27,31 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface Props {
+  product_id: string;
+}
+
 //To do: Add logic add to cart
 
-export default function AddToCompare() {
+export default function AddToCompare(props: Props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleAddToCompare = async () => {
+    let getProductToCompareReq: IProductIDReq = {
+      product_id: props.product_id,
+    };
+    const result = (await dispatch(
+      getProductToCompare(getProductToCompareReq)
+    )) as any;
+    if (result.status) {
+      // window.location.reload();
+    }
+  };
 
   return (
     <Fragment>
-      <Button className={classes.root}>
+      <Button className={classes.root} onClick={handleAddToCompare}>
         <CompareIcon />
         Thêm
       </Button>

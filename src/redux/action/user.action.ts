@@ -241,20 +241,36 @@ export const deleteProductFromWishList = (product_id: IProductIDReq) => (
   })
 
 
-  export enum COMMENT_KEYS {
-    COMMENT_REQ = 'COMMENT_REQ',
-    COMMENT_SUCCESS = 'COMMENT_SUCCESS',
-    COMMENT_FAILURE = 'COMMENT_FAILURE',
-  }
+export enum COMMENT_KEYS {
+  COMMENT_REQ = 'COMMENT_REQ',
+  COMMENT_SUCCESS = 'COMMENT_SUCCESS',
+  COMMENT_FAILURE = 'COMMENT_FAILURE',
+}
 
-  export const comment = (review: IProductReviewReq) => (
-    dispatch: Dispatch
-  ): Promise<any> =>
-    dispatchApi(dispatch, {
-      endpoint: '/products/action/addReview.php',
-      method: 'POST',
-      types: Object.keys(COMMENT_KEYS),
-      body: {
-        data: review
-      }
-    })
+export const comment = (review: IProductReviewReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/products/action/addReview.php',
+    method: 'POST',
+    types: Object.keys(COMMENT_KEYS),
+    body: {
+      data: review
+    }
+  })
+
+export enum MAKE_ORDER_KEYS {
+  MAKE_ORDER_REQ = 'MAKE_ORDER_REQ',
+  MAKE_ORDER_SUCCESS = 'MAKE_ORDER_SUCCESS',
+  MAKE_ORDER_FAILURE = 'MAKE_ORDER_FAILURE',
+}
+
+export const makeOrder = () => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/makeOrder.php',
+    method: 'POST',
+    types: Object.keys(MAKE_ORDER_KEYS),
+    body: {}
+  })
