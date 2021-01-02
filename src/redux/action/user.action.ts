@@ -1,7 +1,7 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
 import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes, UpdatePasswordReq } from '../../shared/type/user.type';
-import { IGetCartDetailRes } from 'src/shared/type/cart.type';
+import { checkoutReq, IGetCartDetailRes } from 'src/shared/type/cart.type';
 import { IProductIDReq, IProductReviewReq } from 'src/shared/type/product.type';
 import { IGetWishlistDetailRes } from 'src/shared/type/wishlist.type';
 
@@ -273,4 +273,22 @@ export const makeOrder = () => (
     method: 'POST',
     types: Object.keys(MAKE_ORDER_KEYS),
     body: {}
+  })
+
+export enum CHECKOUT_KEYS {
+  CHECKOUT_REQ = 'CHECKOUT_REQ',
+  CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS',
+  CHECKOUT_FAILURE = 'CHECKOUT_FAILURE',
+}
+
+export const thanhtoan = (checkoutReq : checkoutReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/checkout.php',
+    method: 'POST',
+    types: Object.keys(CHECKOUT_KEYS),
+    body: {
+      data: checkoutReq
+    }
   })

@@ -11,7 +11,12 @@ import { IUserState } from "src/redux/reducer/user.reducer";
 import { getUserInfo } from "src/redux/action/user.action";
 import { makeOderReq, UpdateUserReq } from "src/shared/type/user.type";
 
-export default function AddressForm() {
+interface Props {
+  values: makeOderReq;
+  setValues: any;
+}
+
+export default function AddressForm(props: Props) {
   const dispatch = useDispatch();
   const user = useSelector<StoreState, IUserState>((state) => state.user);
 
@@ -26,18 +31,15 @@ export default function AddressForm() {
     })();
   }, [user.isLoggedIn]);
 
-  const [values, setValues] = useState<makeOderReq>({
-    username: user.user?.username! || "",
-    first_name: user.user?.first_name! || "",
-    last_name: user.user?.last_name! || "",
-    phone: user.user?.phone! || "",
-    city: user.user?.city! || "",
-    street: user.user?.street! || "",
-  });
+  // const [values, setValues] = useState<makeOderReq>({
+  props.values.phone = user.user?.phone! || "";
+  props.values.city = user.user?.city! || "";
+  props.values.street = user.user?.street! || "";
+  // });
 
   const handleChange = (event: any) => {
-    setValues({
-      ...values,
+    props.setValues({
+      ...props.values,
       [event.target.name]: event.target.value,
     });
   };
@@ -54,7 +56,7 @@ export default function AddressForm() {
               {...field}
               onChange={handleChange}
               required
-              value={values[field.name as keyof makeOderReq]}
+              value={props.values[field.name as keyof makeOderReq]}
             />
           </Grid>
         ))}

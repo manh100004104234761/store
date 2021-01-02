@@ -14,6 +14,15 @@ export interface ICart {
   cart: ICartItem[]
 }
 
+export interface checkoutReq {
+  cart_id: string;
+  shipping: {
+    phone: string;
+    street: string;
+    city: string
+  }
+}
+
 export interface IGetCartDetailRes{
   status: boolean;
   message: string;

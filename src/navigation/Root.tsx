@@ -48,7 +48,7 @@ export const Root: React.FunctionComponent = (props: Props) => {
           <PrivateRoute exact path="/account" component={Account} />
           <PrivateRoute exact path="/cart" component={Cart} />
           <PrivateRoute exact path="/wishlist" component={WishList} />
-          <PrivateRoute exact path="/checkout" component={Checkout} />
+          <PrivateRoute exact path="/checkout/:cartId" component={Checkout} />
         </Switch>
       </App>
     </Router>

@@ -3,25 +3,24 @@ import { Button } from "@material-ui/core";
 import CameraAltOutlinedIcon from "@material-ui/icons/CameraAltOutlined";
 
 interface Props {
-  src?: string;
+  src?: any;
   onSave: (cropData: any) => void;
   aspectRatio: number;
 }
 
 const ImageViewer = (props: Props) => {
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<any>(props.src);
 
   const handleOnChange = (event: any) => {
     event.preventDefault();
-    console.log(event.target.files[0]);
     if (event.target.files.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result as any);
       };
       reader.readAsDataURL(event.target.files[0] as any);
-      props.onSave(reader);
     }
+    props.onSave(event.target.files[0]);
   };
 
   return (

@@ -26,6 +26,7 @@ import { IProductIDReq } from "src/shared/type/product.type";
 import {
   addProductToCart,
   deleteProductFromCart,
+  makeOrder,
   removeOneProductFromCart,
 } from "src/redux/action/user.action";
 import { IGetCartDetailRes } from "src/shared/type/cart.type";
@@ -108,7 +109,12 @@ const Cart = (props: Props) => {
 
   const classes = useStyles();
 
-  const handleCheckout = () => {};
+  const handleMakeOrder = async () => {
+    const result = (await dispatch(makeOrder())) as any;
+    if (result.status) {
+      history.push(`/checkout/${user.cartId}`);
+    }
+  };
 
   return (
     <div>
@@ -185,7 +191,7 @@ const Cart = (props: Props) => {
           variant="outlined"
           className={classes.buttonPlace}
           color="inherit"
-          onClick={handleCheckout}
+          onClick={handleMakeOrder}
         >
           Đặt hàng
         </Button>

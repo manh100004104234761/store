@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
@@ -10,6 +10,9 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./components/AddressForm/AddressForm";
 import OrderForm from "./components/OrderForm/OrderForm";
+import { makeOderReq } from "src/shared/type/user.type";
+import { thanhtoan } from "src/redux/action/user.action";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -61,25 +64,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ["Shipping address", "Review your order"];
-
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <OrderForm />;
-    default:
-      throw new Error("Unknown step");
-  }
+interface Props {
+  match: any;
 }
 
-export default function Checkout() {
+const steps = ["Shipping address", "Review your order"];
+
+export default function Checkout(props: Props) {
   const classes = useStyles();
+  const cartId = props.match.params.cartId;
   const [activeStep, setActiveStep] = React.useState(0);
+  const history = useHistory();
+
+  const [form, setData] = useState<makeOderReq>({} as makeOderReq);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+  };
+
+  const handleCheckOut = async () => {
+    let checkOutReq = {
+      cart_id: cartId,
+      shipping: {
+        phone: form.phone,
+        street: form.street,
+        city: form.city,
+      },
+    };
+    console.log(checkOutReq);
+    const result = (await thanhtoan(checkOutReq)) as any;
+    if (result.status) {
+      console.log("Ok");
+      history.push("/");
+    }
   };
 
   const handleBack = () => {
@@ -107,15 +124,14 @@ export default function Checkout() {
                 <Typography variant="h5" gutterBottom>
                   Thank you for your order.
                 </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
               </>
             ) : (
               <>
-                {getStepContent(activeStep)}
+                {activeStep === 0 ? (
+                  <AddressForm values={form} setValues={setData} />
+                ) : (
+                  <OrderForm />
+                )}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
@@ -125,10 +141,14 @@ export default function Checkout() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={
+                      activeStep === steps.length - 1
+                        ? handleNext
+                        : handleCheckOut
+                    }
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                    {activeStep === steps.length - 1 ? "Next" : "Checkout"}
                   </Button>
                 </div>
               </>

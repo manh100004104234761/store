@@ -71,9 +71,6 @@ export interface UpdateUserReq{
 }
 
 export interface makeOderReq{
-  first_name: string;
-  last_name: string;
-  username: string;
   city: string;
   street: string;
   phone: string;
