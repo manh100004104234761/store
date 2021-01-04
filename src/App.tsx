@@ -3,6 +3,7 @@ import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCartDetail,
+  getOrders,
   getUserInfo,
   getWishList,
   persistToken,
@@ -31,6 +32,7 @@ function App(props: Props) {
       dispatch(getUserInfo());
       dispatch(getCartDetail());
       dispatch(getWishList());
+      dispatch(getOrders());
     }
   }, [user.isLoggedIn]);
 

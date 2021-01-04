@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import { ICartItem, IGetCartDetailRes } from 'src/shared/type/cart.type';
+import { ICartInfo, ICartItem, IGetCartDetailRes, IGetOrders } from 'src/shared/type/cart.type';
 import { IGetWishlistDetailRes, IWishlistItem } from 'src/shared/type/wishlist.type';
 import { BOOK_TOKEN_KEY, localStore } from '../../lib/storage';
 import { ITokenDecode, GetUserInfoRes, IUser } from '../../shared/type/user.type';
@@ -14,6 +14,7 @@ export interface IUserState {
   cartId: string;
   cartTotal: string;
   wishList: IWishlistItem[];
+  orders: ICartInfo[]
 }
 
 const initialState: IUserState = {
@@ -24,6 +25,7 @@ const initialState: IUserState = {
   cartId: '',
   cartTotal: '',
   wishList: [],
+  orders: []
 };
 
 export default function userReducer(
@@ -128,6 +130,13 @@ export default function userReducer(
         cart: [],
         cartId: "",
         cartTotal: "",
+      }
+    }
+    case userAction.GET_ODERS_KEYS.GET_ODERS_SUCCESS: {
+      const { data } = action.payload as IGetOrders;
+      return {
+        ...state,
+        orders: data,
       }
     }
     default:

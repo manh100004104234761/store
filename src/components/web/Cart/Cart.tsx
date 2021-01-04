@@ -31,6 +31,7 @@ import {
   removeOneProductFromCart,
 } from "src/redux/action/user.action";
 import { ICartItem, IGetCartDetailRes } from "src/shared/type/cart.type";
+import { IShipping } from "../Checkout/Checkout";
 
 const useStyles = makeStyles({
   table: {},
@@ -76,6 +77,12 @@ const Cart = (props: Props) => {
 
   const cartInfo: ICartItem[] = user.cart;
   const cartTotal: string = user.cartTotal;
+  const status: string = "2";
+  const shipping: IShipping = {
+    phone: "",
+    street: "",
+    city: "",
+  };
 
   const handleAddToCart = (id: string) => async () => {
     let addToCartReq: IProductIDReq = {
@@ -126,7 +133,12 @@ const Cart = (props: Props) => {
     const result = (await dispatch(makeOrder())) as any;
     if (result.status) {
       console.log("Make Order thanh cong");
-      history.push(`/checkout/${user.cartId}`, { cartInfo, cartTotal });
+      history.push(`/checkout/${user.cartId}`, {
+        cartInfo,
+        cartTotal,
+        status,
+        shipping,
+      });
     }
   };
 

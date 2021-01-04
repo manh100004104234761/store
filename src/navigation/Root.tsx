@@ -8,6 +8,7 @@ import {
   Checkout,
   Search,
   Compare,
+  HistoryOrder,
 } from "../components/web";
 import { FreeRoute, PrivateRoute } from "./RouteLayout";
 import { createBrowserHistory } from "history";
@@ -51,6 +52,7 @@ export const Root: React.FunctionComponent = (props: Props) => {
           <PrivateRoute exact path="/cart" component={Cart} />
           <PrivateRoute exact path="/wishlist" component={WishList} />
           <PrivateRoute exact path="/checkout/:cartId" component={Checkout} />
+          <PrivateRoute exact path="/history-orders" component={HistoryOrder} />
         </Switch>
       </App>
     </Router>

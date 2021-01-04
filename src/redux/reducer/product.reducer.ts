@@ -76,6 +76,13 @@ export default function productReducer(
         productsToCompare: products
       }
     }
+    case productAction.GET_ALL_PRODUCTS_KEY.GET_ALL_PRODUCTS_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        products: data
+      }
+    }
     default:
       return state;
   }

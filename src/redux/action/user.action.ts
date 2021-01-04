@@ -203,6 +203,22 @@ export const getWishList = () => (
     body: {}
   })
 
+export enum GET_ODERS_KEYS {
+  GET_ODERS_REQ = 'GET_ODERS_REQ',
+  GET_ODERS_SUCCESS = 'GET_ODERS_SUCCESS',
+  GET_ODERS_FAILURE = 'GET_ODERS_FAILURE',
+}
+
+export const getOrders = () => (
+  dispatch: Dispatch
+): Promise<IGetWishlistDetailRes> =>
+  dispatchApi(dispatch, {
+    endpoint: '/cart/action/getHistoryOrders.php',
+    method: 'POST',
+    types: Object.keys(GET_ODERS_KEYS),
+    body: {}
+  })
+
 
 export enum ADD_TO_WISHLIST_KEYS {
   ADD_TO_WISHLIST_REQ = 'ADD_TO_WISHLIST_REQ',

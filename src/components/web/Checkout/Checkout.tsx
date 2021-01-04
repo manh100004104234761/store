@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import AddressForm from "./components/AddressForm/AddressForm";
 import OrderForm from "./components/OrderForm/OrderForm";
 import { makeOderReq } from "src/shared/type/user.type";
-import { thanhtoan } from "src/redux/action/user.action";
+import { getOrders, thanhtoan } from "src/redux/action/user.action";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "src/redux/store/store";
@@ -74,9 +74,17 @@ interface Props {
 
 const steps = ["Shipping address", "Review your order"];
 
+export interface IShipping {
+  phone: string;
+  street: string;
+  city: string;
+}
+
 interface IcartI {
   cartInfo: ICartItem[];
   cartTotal: string;
+  status: string;
+  shipping: IShipping;
 }
 
 export default function Checkout(props: Props) {
@@ -86,7 +94,7 @@ export default function Checkout(props: Props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const user = useSelector<StoreState, IUserState>((state) => state.user);
 
-  const { cartInfo, cartTotal } = location.state as IcartI;
+  const { cartInfo, cartTotal, status, shipping } = location.state as IcartI;
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -114,6 +122,7 @@ export default function Checkout(props: Props) {
     const result = (await dispatch(thanhtoan(checkOutReq))) as any;
     console.log(result);
     if (result.status) {
+      await dispatch(getOrders);
       console.log("Ok");
       history.push("/");
     }
@@ -126,66 +135,86 @@ export default function Checkout(props: Props) {
   return (
     <>
       <CssBaseline />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
-            Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <>
-            {activeStep === steps.length ? (
-              <>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-              </>
-            ) : (
-              <>
-                {activeStep === 0 ? (
-                  <AddressForm values={form} setValues={setData} />
-                ) : (
-                  <OrderForm
-                    userName={user.user?.username!}
-                    cart={cartInfo}
-                    cartTotal={cartTotal}
-                    shipping={{
-                      phone: form.phone,
-                      city: form.city,
-                      street: form.street,
-                    }}
-                  />
-                )}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
+      {status === "2" && (
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <Typography component="h1" variant="h4" align="center">
+              Checkout
+            </Typography>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <>
+              {activeStep === steps.length ? (
+                <>
+                  <Typography variant="h5" gutterBottom>
+                    Thank you for your order.
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  {activeStep === 0 ? (
+                    <AddressForm values={form} setValues={setData} />
+                  ) : (
+                    <OrderForm
+                      userName={user.user?.username!}
+                      cart={cartInfo}
+                      cartTotal={cartTotal}
+                      shipping={{
+                        phone: form.phone,
+                        city: form.city,
+                        street: form.street,
+                      }}
+                    />
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={
-                      !(activeStep === steps.length - 1)
-                        ? handleNext
-                        : handleCheckOut
-                    }
-                    className={classes.button}
-                  >
-                    {!(activeStep === steps.length - 1) ? "Next" : "Checkout"}
-                  </Button>
-                </div>
-              </>
-            )}
-          </>
-        </Paper>
-        <Copyright />
-      </main>
+                  <div className={classes.buttons}>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} className={classes.button}>
+                        Back
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={
+                        !(activeStep === steps.length - 1)
+                          ? handleNext
+                          : handleCheckOut
+                      }
+                      className={classes.button}
+                    >
+                      {!(activeStep === steps.length - 1) ? "Next" : "Checkout"}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </>
+          </Paper>
+          <Copyright />
+        </main>
+      )}
+      {status === "0" && (
+        <div>
+          <div>Bạn thanh toán</div>
+          <OrderForm
+            userName={user.user?.username!}
+            cart={cartInfo}
+            cartTotal={cartTotal}
+            shipping={shipping}
+          />
+          <Button
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            OK
+          </Button>
+        </div>
+      )}
     </>
   );
 }

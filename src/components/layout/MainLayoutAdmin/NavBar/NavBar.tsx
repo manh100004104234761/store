@@ -26,22 +26,35 @@ const UserItems: NavItemProps[] = [
     name: "Quản lý",
     data: [
       {
-        nameItem: "Giỏ hàng",
-        urlItem: "/cart",
+        nameItem: "Quản lý sản phẩm",
+        urlItem: "/admin/products",
       },
       {
-        nameItem: "Sản phẩm ưa thích",
-        urlItem: "/wishlist",
+        nameItem: "Quản lý người dùng",
+        urlItem: "/admin/users",
       },
       {
-        nameItem: "Lịch sử đơn hàng",
-        urlItem: "/history-orders",
+        nameItem: "Quản lý đơn hàng",
+        urlItem: "/admin/orders",
+      },
+      {
+        nameItem: "Quản lý tin tức",
+        urlItem: "/admin/news",
       },
     ],
   },
   {
-    name: "Liên hệ",
-    url: "/contact",
+    name: "Thống kê",
+    data: [
+      {
+        nameItem: "Thống kê người dùng",
+        urlItem: "/admin/statistics/user",
+      },
+      {
+        nameItem: "Thống kê doanh thu",
+        urlItem: "/admin/statistics/revenue",
+      },
+    ],
   },
 ];
 
@@ -53,30 +66,6 @@ export default function NavBar() {
   );
 
   let listCategoryTemp: ItemProps[] = [];
-  useEffect(() => {
-    (async () => {
-      try {
-        const result = ((await dispatch(
-          getAllCategory()
-        )) as any) as IGetAllCategoryRes;
-        if (result.status) {
-          result.data.map((item) => {
-            listCategoryTemp.push({
-              nameItem: item.name,
-              urlItem: `/category/${item.category_id}`,
-            });
-          });
-        }
-        let danhmuc: NavItemProps = {
-          name: "Danh mục",
-          data: listCategoryTemp,
-        };
-        if (UserItems.length == 3) {
-          UserItems.push(danhmuc);
-        }
-      } catch (err) {}
-    })();
-  }, [product.isLoadedCategory]);
 
   return (
     <div className={classes.root}>

@@ -125,3 +125,20 @@ export const getProductToCompare = (product_id : IProductIDReq) => (
     data: product_id,
   }
 })
+
+
+export enum GET_ALL_PRODUCTS_KEY{
+  GET_ALL_PRODUCTS_REQ = 'GET_ALL_PRODUCTS_REQ',
+  GET_ALL_PRODUCTS_SUCCESS = 'GET_ALL_PRODUCTS_SUCCESS',
+  GET_ALL_PRODUCTS_FAILURE = 'GET_ALL_PRODUCTS_FAILURE',
+}
+
+
+export const getAllProduct = () => (
+  dispatch: Dispatch
+) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
+  endpoint: '/admin/products/action/getAll.php',
+  method: 'POST',
+  types: Object.keys(GET_ALL_PRODUCTS_KEY),
+  body: {}
+})
