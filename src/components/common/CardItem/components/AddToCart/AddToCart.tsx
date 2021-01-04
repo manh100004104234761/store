@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "src/redux/store/store";
 import { IUserState } from "src/redux/reducer/user.reducer";
 import { IProductIDReq } from "src/shared/type/product.type";
-import { addProductToCart } from "src/redux/action/user.action";
+import { addProductToCart, getCartDetail } from "src/redux/action/user.action";
 import { IGetCartDetailRes } from "src/shared/type/cart.type";
 import { useHistory } from "react-router-dom";
 
@@ -50,7 +50,10 @@ export default function AddToCart(props: Props) {
       addProductToCart(addToCartReq)
     )) as any) as IGetCartDetailRes;
     if (result.status) {
-      window.location.reload();
+      const result2 = (await dispatch(getCartDetail())) as any;
+      if (result2.status) {
+        console.log("Ok");
+      }
     }
   };
 

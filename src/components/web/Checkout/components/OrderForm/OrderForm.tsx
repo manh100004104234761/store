@@ -5,21 +5,18 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
+import { ICartItem } from "src/shared/type/cart.type";
 
-const products = [
-  { name: "Product 1", desc: "A nice thing", price: "$9.99" },
-  { name: "Product 2", desc: "Another thing", price: "$3.45" },
-  { name: "Product 3", desc: "Something else", price: "$6.51" },
-  { name: "Product 4", desc: "Best thing of all", price: "$14.11" },
-  { name: "Shipping", desc: "", price: "Free" },
-];
-const addresses = [
-  "1 Material-UI Drive",
-  "Reactville",
-  "Anytown",
-  "99999",
-  "USA",
-];
+interface Props {
+  userName: string;
+  cart: ICartItem[];
+  cartTotal: string;
+  shipping: {
+    phone: string;
+    street: string;
+    city: string;
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -33,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrderForm() {
+export default function OrderForm(props: Props) {
   const classes = useStyles();
 
   return (
@@ -42,16 +39,19 @@ export default function OrderForm() {
         Order summary
       </Typography>
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
+        {props.cart.map((product) => (
+          <ListItem className={classes.listItem} key={product.product_name}>
+            <ListItemText
+              primary={product.product_name}
+              secondary={product.description}
+            />
             <Typography variant="body2">{product.price}</Typography>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" className={classes.total}>
-            $34.06
+            {props.cartTotal}
           </Typography>
         </ListItem>
       </List>
@@ -60,8 +60,12 @@ export default function OrderForm() {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Shipping
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(", ")}</Typography>
+          <Typography gutterBottom>{props.userName}</Typography>
+          <div>
+            <Typography gutterBottom>{props.shipping.phone}</Typography>
+            <Typography gutterBottom>{props.shipping.street}</Typography>
+            <Typography gutterBottom>{props.shipping.city}</Typography>
+          </div>
         </Grid>
       </Grid>
     </React.Fragment>

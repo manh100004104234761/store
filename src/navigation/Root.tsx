@@ -14,6 +14,7 @@ import { createBrowserHistory } from "history";
 import App from "../App";
 import New from "src/components/web/New/New";
 import WishList from "src/components/web/WishList/WishList";
+import Category from "src/components/web/Category/Category";
 // import { ListOrder, ListUser } from "src/components/cms";
 
 interface Props {}
@@ -40,6 +41,7 @@ export const Root: React.FunctionComponent = (props: Props) => {
             path="/search-product/:searchName"
             component={Search}
           />
+          <FreeRoute exact path="/category/:categoryId" component={Category} />
           <FreeRoute exact path="/compare" component={Compare} />
           {/* <FreeRoute exact path="/list-orders" component={ListOrder} />
           <FreeRoute exact path="/list-users" component={ListUser} /> */}

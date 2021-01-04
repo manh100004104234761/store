@@ -19,6 +19,7 @@ interface Props {
 export default function AddressForm(props: Props) {
   const dispatch = useDispatch();
   const user = useSelector<StoreState, IUserState>((state) => state.user);
+  const { values, setValues } = props;
 
   useEffect(() => {
     (async () => {
@@ -32,14 +33,11 @@ export default function AddressForm(props: Props) {
   }, [user.isLoggedIn]);
 
   // const [values, setValues] = useState<makeOderReq>({
-  props.values.phone = user.user?.phone! || "";
-  props.values.city = user.user?.city! || "";
-  props.values.street = user.user?.street! || "";
   // });
 
   const handleChange = (event: any) => {
-    props.setValues({
-      ...props.values,
+    setValues({
+      ...values,
       [event.target.name]: event.target.value,
     });
   };
@@ -56,7 +54,7 @@ export default function AddressForm(props: Props) {
               {...field}
               onChange={handleChange}
               required
-              value={props.values[field.name as keyof makeOderReq]}
+              value={values[field.name as keyof makeOderReq]}
             />
           </Grid>
         ))}

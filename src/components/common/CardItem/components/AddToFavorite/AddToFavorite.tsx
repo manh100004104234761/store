@@ -4,7 +4,10 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { IProductIDReq } from "src/shared/type/product.type";
-import { addProductToWishList } from "src/redux/action/user.action";
+import {
+  addProductToWishList,
+  getWishList,
+} from "src/redux/action/user.action";
 import { IGetWishlistDetailRes } from "src/shared/type/wishlist.type";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,7 +48,10 @@ export default function AddToFavorite(props: Props) {
       addProductToWishList(addToWishListReq)
     )) as any) as IGetWishlistDetailRes;
     if (result.status) {
-      window.location.reload();
+      const result2 = (await dispatch(getWishList())) as any;
+      if (result2.status) {
+        console.log("ok");
+      }
     }
   };
 

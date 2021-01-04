@@ -80,3 +80,8 @@ export interface IGetAllCategoryRes {
 export interface searchProductByNameReq {
   product_name: string;
 }
+
+export interface searchProductByCategoryReq {
+  category_id: string;
+}
+

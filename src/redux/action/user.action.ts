@@ -179,7 +179,7 @@ export const deleteProductFromCart = (product_id: IProductIDReq) => (
   dispatch: Dispatch
 ): Promise<any> =>
   dispatchApi(dispatch, {
-    endpoint: '/cart/action/removeProductFromCart.php',
+    endpoint: '/cart/action/deletePropduct.php',
     method: 'POST',
     types: Object.keys(DELETE_PRODUCT_FROM_CART_KEYS),
     body: {

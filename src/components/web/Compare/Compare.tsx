@@ -37,36 +37,76 @@ export default function Compare(props: Props) {
         {!Ishow ? <div>Làm mới</div> : <div>So sánh</div>}
       </Button>
       <div>
-        {!Ishow &&
-        product.productsToCompare &&
-        product.productsToCompare[product.productsToCompare?.length - 1] ? (
-          product.productsToCompare[
-            product.productsToCompare?.length - 1
-          ].values?.map((value) => (
+        <div style={{ display: "flex", marginLeft: 556 }}>
+          <div style={{ marginRight: 50 }}>
             <div>
-              <h3>{value.name}</h3>
-              <h2>{value.value}</h2>
+              {!Ishow &&
+              product.productsToCompare &&
+              product.productsToCompare[
+                product.productsToCompare?.length - 1
+              ] ? (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <h3>Tên Sản Phẩm:</h3>
+                  <div>
+                    {
+                      product.productsToCompare[
+                        product.productsToCompare?.length - 1
+                      ].product_name
+                    }
+                  </div>
+                </div>
+              ) : null}
             </div>
-          ))
-        ) : (
-          <div>Khong co gi o day ca</div>
-        )}
-      </div>
-      <div>
-        {!Ishow &&
-        product.productsToCompare &&
-        product.productsToCompare[product.productsToCompare?.length - 2] ? (
-          product.productsToCompare[
-            product.productsToCompare?.length - 2
-          ].values?.map((value) => (
             <div>
-              <h3>{value.name}</h3>
-              <h2>{value.value}</h2>
+              {!Ishow &&
+              product.productsToCompare &&
+              product.productsToCompare[
+                product.productsToCompare?.length - 1
+              ] ? (
+                product.productsToCompare[
+                  product.productsToCompare?.length - 1
+                ].values?.map((value) => (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <h3>{value.name}:</h3>
+                    <h2>{value.value}</h2>
+                  </div>
+                ))
+              ) : (
+                <div>Khong co gi o day ca</div>
+              )}
             </div>
-          ))
-        ) : (
-          <div />
-        )}
+          </div>
+          <div>
+            {!Ishow &&
+            product.productsToCompare &&
+            product.productsToCompare[product.productsToCompare?.length - 2] ? (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h3>Tên Sản Phẩm:</h3>
+                <div>
+                  {
+                    product.productsToCompare[
+                      product.productsToCompare?.length - 2
+                    ].product_name
+                  }
+                </div>
+              </div>
+            ) : null}
+          </div>
+          {!Ishow &&
+          product.productsToCompare &&
+          product.productsToCompare[product.productsToCompare?.length - 2] ? (
+            product.productsToCompare[
+              product.productsToCompare?.length - 2
+            ].values?.map((value) => (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h3>{value.name}:</h3>
+                <h2>{value.value}</h2>
+              </div>
+            ))
+          ) : (
+            <div />
+          )}
+        </div>
       </div>
     </div>
   );

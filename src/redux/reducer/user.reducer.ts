@@ -12,6 +12,7 @@ export interface IUserState {
   loadedInfo: boolean;
   cart: ICartItem[];
   cartId: string;
+  cartTotal: string;
   wishList: IWishlistItem[];
 }
 
@@ -21,6 +22,7 @@ const initialState: IUserState = {
   loadedInfo: false,
   cart: [],
   cartId: '',
+  cartTotal: '',
   wishList: [],
 };
 
@@ -99,7 +101,8 @@ export default function userReducer(
       return {
         ...state,
         cart: items,
-        cartId: data.cart_id
+        cartId: data.cart_id,
+        cartTotal: data.total
       }
     }
     case userAction.ADD_TO_CART_KEYS.ADD_TO_CART_SUCCESS: {
@@ -118,6 +121,14 @@ export default function userReducer(
      return {
        ...state
      }
+    }
+    case userAction.CHECKOUT_KEYS.CHECKOUT_SUCCESS: {
+      return {
+        ...state,
+        cart: [],
+        cartId: "",
+        cartTotal: "",
+      }
     }
     default:
       return state;

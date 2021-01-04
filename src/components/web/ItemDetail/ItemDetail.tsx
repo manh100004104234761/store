@@ -13,6 +13,7 @@ import {
 import { useDispatch } from "react-redux";
 import { getProductDetail } from "src/redux/action/product.action";
 import { comment } from "src/redux/action/user.action";
+import { DriveEtaTwoTone } from "@material-ui/icons";
 
 interface Props {
   match: any;
@@ -70,10 +71,15 @@ export default function ItemDetail(props: Props) {
     return <div />;
   }
   return (
-    <div>
-      <Title title="Chi tiết sản phẩm" subTitle="Chi tiết sản phẩm" />
-      <Grid container spacing={3}>
-        <Grid item xs={4}>
+    <>
+      <div style={{ display: "flex" }}>
+        <Title title="Chi tiết sản phẩm" subTitle="Chi tiết sản phẩm" />
+        <div style={{ marginLeft: 220 }}>
+          <Title title="Thông số" />
+        </div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ marginRight: 50 }}>
           <CardItem
             item={{
               image: product.image,
@@ -83,41 +89,46 @@ export default function ItemDetail(props: Props) {
               product_id: product.product_id,
             }}
           />
-        </Grid>
-        <Grid item xs={8}>
-          <div>Thông số</div>
-          {product.values &&
-            product.values.map(
-              (value) => (
-                <div>
-                  <h3>{value.name}</h3>
-                  <h2>{value.value}</h2>
-                </div>
-              )
-              // {
-              //   !Array.isArray(value) ? console.log(key) : console.log(value);
-              // }
-            )}
-          <div>Bình luận</div>
-          {product.review?.map((ireview) => (
-            <div>
-              <h3>{ireview.username}</h3>
-              <h2>{ireview.content}</h2>
-            </div>
-          ))}
-          <div>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="Binh luan"
-              onChange={handleChange}
-            />
-            <Button variant="contained" onClick={handleComment}>
-              Bình luận
-            </Button>
+        </div>
+        <div style={{ marginRight: 50 }}>
+          <div style={{ marginBottom: 150 }}>
+            {product.values &&
+              product.values.map(
+                (value) => (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <h3>{value.name}:</h3>
+                    <h2>{value.value}</h2>
+                  </div>
+                )
+                // {
+                //   !Array.isArray(value) ? console.log(key) : console.log(value);
+                // }
+              )}
           </div>
-        </Grid>
-      </Grid>
-    </div>
+          <div>
+            <div>Bình luận</div>
+            {product.review?.map((ireview) => (
+              <div>
+                <h3>{ireview.username}</h3>
+                <h2>{ireview.content}</h2>
+              </div>
+            ))}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="Binh luan"
+                onChange={handleChange}
+              />
+              <div style={{ marginLeft: 10 }}>
+                <Button variant="contained" onClick={handleComment}>
+                  Bình luận
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

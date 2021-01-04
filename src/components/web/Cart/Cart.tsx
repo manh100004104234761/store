@@ -26,10 +26,11 @@ import { IProductIDReq } from "src/shared/type/product.type";
 import {
   addProductToCart,
   deleteProductFromCart,
+  getCartDetail,
   makeOrder,
   removeOneProductFromCart,
 } from "src/redux/action/user.action";
-import { IGetCartDetailRes } from "src/shared/type/cart.type";
+import { ICartItem, IGetCartDetailRes } from "src/shared/type/cart.type";
 
 const useStyles = makeStyles({
   table: {},
@@ -73,13 +74,19 @@ const Cart = (props: Props) => {
 
   const user = useSelector<StoreState, IUserState>((state) => state.user);
 
+  const cartInfo: ICartItem[] = user.cart;
+  const cartTotal: string = user.cartTotal;
+
   const handleAddToCart = (id: string) => async () => {
     let addToCartReq: IProductIDReq = {
       product_id: id,
     };
     const result = (await dispatch(addProductToCart(addToCartReq))) as any;
     if (result.status) {
-      history.go(0);
+      const result2 = (await dispatch(getCartDetail())) as any;
+      if (result2.status) {
+        console.log("Ok");
+      }
     }
   };
 
@@ -91,7 +98,10 @@ const Cart = (props: Props) => {
       removeOneProductFromCart(removeFromCartReq)
     )) as any;
     if (result.status) {
-      history.go(0);
+      const result2 = (await dispatch(getCartDetail())) as any;
+      if (result2.status) {
+        console.log("Ok");
+      }
     }
   };
 
@@ -103,7 +113,10 @@ const Cart = (props: Props) => {
       deleteProductFromCart(deleteFromCartReq)
     )) as any;
     if (result.status) {
-      history.go(0);
+      const result2 = (await dispatch(getCartDetail())) as any;
+      if (result2.status) {
+        console.log("Ok");
+      }
     }
   };
 
@@ -112,7 +125,8 @@ const Cart = (props: Props) => {
   const handleMakeOrder = async () => {
     const result = (await dispatch(makeOrder())) as any;
     if (result.status) {
-      history.push(`/checkout/${user.cartId}`);
+      console.log("Make Order thanh cong");
+      history.push(`/checkout/${user.cartId}`, { cartInfo, cartTotal });
     }
   };
 

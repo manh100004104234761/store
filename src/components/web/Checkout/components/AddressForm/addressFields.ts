@@ -3,8 +3,8 @@ import { TextFieldProps } from '@material-ui/core';
 export const fields: TextFieldProps[] = [
   {
     required: true,
-    id: 'address',
-    name: 'stress',
+    id: 'street',
+    name: 'street',
     label: 'Street',
     fullWidth: true,
     autoComplete: 'shipping address-line',

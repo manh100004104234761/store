@@ -1,6 +1,6 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
-import { IProductCountRes, IProductIDReq, IProductPerPageReq, IProductPerPageRes, searchProductByNameReq } from 'src/shared/type/product.type';
+import { IProductCountRes, IProductIDReq, IProductPerPageReq, IProductPerPageRes, searchProductByCategoryReq, searchProductByNameReq } from 'src/shared/type/product.type';
 
 export enum GETPRODUCTCOUNT_KEY{
   GETPRODUCTCOUNT_REQ = 'GETPRODUCTCOUNT_REQ',
@@ -84,12 +84,29 @@ export const searchProductByName = (productName: searchProductByNameReq) => (
 ) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
   endpoint: '/products/action/searchProduct.php',
   method: 'POST',
-  types: Object.keys(GETALLCATEGORY_KEY),
+  types: Object.keys(SEARCH_PRODUCT_BY_NAME_KEY),
   body: {
     data: productName
   }
 })
 
+export enum SEARCH_PRODUCT_BY_CATEGORY_KEY{
+  SEARCH_PRODUCT_BY_CATEGORY_REQ = 'SEARCH_PRODUCT_BY_CATEGORY_REQ',
+  SEARCH_PRODUCT_BY_CATEGORY_SUCCESS = 'SEARCH_PRODUCT_BY_CATEGORY_SUCCESS',
+  SEARCH_PRODUCT_BY_CATEGORY_FAILURE = 'SEARCH_PRODUCT_BY_CATEGORY_FAILURE',
+}
+
+
+export const searchProductByCategory = (productCategory: searchProductByCategoryReq) => (
+  dispatch: Dispatch
+) : Promise<IProductPerPageRes> => dispatchApi(dispatch, {
+  endpoint: '/products/action/getProductByCategoryId.php',
+  method: 'POST',
+  types: Object.keys(SEARCH_PRODUCT_BY_CATEGORY_KEY),
+  body: {
+    data: productCategory
+  }
+})
 
 export enum GETPRODUCT_TO_COMPARE_KEY{
   GETPRODUCT_TO_COMPARE_REQ = 'GETPRODUCT_TO_COMPARE_REQ',

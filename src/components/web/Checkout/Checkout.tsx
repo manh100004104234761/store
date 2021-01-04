@@ -12,7 +12,11 @@ import AddressForm from "./components/AddressForm/AddressForm";
 import OrderForm from "./components/OrderForm/OrderForm";
 import { makeOderReq } from "src/shared/type/user.type";
 import { thanhtoan } from "src/redux/action/user.action";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "src/redux/store/store";
+import { IUserState } from "src/redux/reducer/user.reducer";
+import { ICartItem } from "src/shared/type/cart.type";
 
 function Copyright() {
   return (
@@ -70,13 +74,28 @@ interface Props {
 
 const steps = ["Shipping address", "Review your order"];
 
+interface IcartI {
+  cartInfo: ICartItem[];
+  cartTotal: string;
+}
+
 export default function Checkout(props: Props) {
   const classes = useStyles();
+  const location = useLocation();
   const cartId = props.match.params.cartId;
   const [activeStep, setActiveStep] = React.useState(0);
-  const history = useHistory();
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
 
-  const [form, setData] = useState<makeOderReq>({} as makeOderReq);
+  const { cartInfo, cartTotal } = location.state as IcartI;
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [form, setData] = useState<makeOderReq>({
+    city: user.user?.city! || "",
+    phone: user.user?.phone! || "",
+    street: user.user?.street! || "",
+  } as makeOderReq);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -92,7 +111,8 @@ export default function Checkout(props: Props) {
       },
     };
     console.log(checkOutReq);
-    const result = (await thanhtoan(checkOutReq)) as any;
+    const result = (await dispatch(thanhtoan(checkOutReq))) as any;
+    console.log(result);
     if (result.status) {
       console.log("Ok");
       history.push("/");
@@ -130,7 +150,16 @@ export default function Checkout(props: Props) {
                 {activeStep === 0 ? (
                   <AddressForm values={form} setValues={setData} />
                 ) : (
-                  <OrderForm />
+                  <OrderForm
+                    userName={user.user?.username!}
+                    cart={cartInfo}
+                    cartTotal={cartTotal}
+                    shipping={{
+                      phone: form.phone,
+                      city: form.city,
+                      street: form.street,
+                    }}
+                  />
                 )}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
@@ -142,13 +171,13 @@ export default function Checkout(props: Props) {
                     variant="contained"
                     color="primary"
                     onClick={
-                      activeStep === steps.length - 1
+                      !(activeStep === steps.length - 1)
                         ? handleNext
                         : handleCheckOut
                     }
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? "Next" : "Checkout"}
+                    {!(activeStep === steps.length - 1) ? "Next" : "Checkout"}
                   </Button>
                 </div>
               </>
