@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   fade,
   createStyles,
@@ -25,6 +25,8 @@ import { StoreState } from "src/redux/store/store";
 import { useSelector } from "react-redux";
 import {
   getCartDetail,
+  getOrders,
+  getUserInfo,
   getWishList,
   logout,
 } from "src/redux/action/user.action";
@@ -109,6 +111,13 @@ const TopBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+    dispatch(getCartDetail());
+    dispatch(getWishList());
+    dispatch(getOrders());
+  }, []);
 
   const user = useSelector<StoreState, IUserState>((state) => state.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -231,6 +240,11 @@ const TopBar = () => {
           <div className={classes.authButton}>
             {!user.isLoggedIn ? (
               <div>
+                <Button color="inherit">
+                  <a href="\admin\sign-in" className={classes.badge}>
+                    Admin
+                  </a>
+                </Button>
                 <Button color="inherit">
                   <a href="\auth\sign-in" className={classes.badge}>
                     Sign in

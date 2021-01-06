@@ -22,6 +22,7 @@ import {
 import { setSuccessNoti } from "src/redux/action/success.action";
 import { ImageViewer } from "src/components/common";
 import { addProduct, getAllProduct } from "src/redux/action/product.action";
+import { IProductDetail } from "src/shared/type/product.type";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) =>
 );
 export interface ComponentProps {
   onClose: () => void;
+  productDetail: IProductDetail;
 }
 
 interface StateProps {
@@ -51,7 +53,7 @@ export interface IField {
   value: string;
 }
 
-const AddProductField: IField[] = [
+const EditProductField: IField[] = [
   {
     label: "Product Name",
     value: "product_name",
@@ -70,15 +72,15 @@ const AddProductField: IField[] = [
   },
 ];
 
-const AddProduct = (props: Props) => {
-  const { onClose } = props;
+const EditProduct = (props: Props) => {
+  const { onClose, productDetail } = props;
   const classes = useStyles();
   const [values, setValues] = useState<StateProps>({
-    product_name: "",
-    price: "",
-    qty: "",
-    image: null,
-    description: "",
+    product_name: productDetail.product_name || "",
+    price: productDetail.price || "",
+    qty: productDetail.qty || "",
+    image: productDetail.image || null,
+    description: productDetail.description || "",
     values_1: "",
     values_2: "",
   });
@@ -116,7 +118,7 @@ const AddProduct = (props: Props) => {
       </DialogTitle>
       <DialogContent>
         <Grid container={true} spacing={2}>
-          {AddProductField.map((field) => (
+          {EditProductField.map((field) => (
             <Grid item={true} xs={12} key={field.label}>
               <TextField
                 label={field.label}
@@ -159,4 +161,4 @@ const AddProduct = (props: Props) => {
     </Dialog>
   );
 };
-export default AddProduct;
+export default EditProduct;

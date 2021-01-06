@@ -5,13 +5,16 @@ export interface INew {
   title: string;
   short_content: string;
   content: string;
-  image: any;
 }
 
 export interface INewRes {
   status: boolean;
   message: string;
-  data: {
-    news: INew[]
-  }
+  data: INew[]
+}
+
+export interface newReq {
+  title: string;
+  short_content: string;
+  content: string;
 }

@@ -17,6 +17,8 @@ import { IUserState } from "../../../redux/reducer/user.reducer";
 import { useHistory } from "react-router-dom";
 import { login } from "../../../redux/action/user.action";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
+import { setSuccessNoti } from "src/redux/action/success.action";
+import { setError } from "src/redux/action/error.action";
 
 interface Props {}
 
@@ -107,8 +109,11 @@ export default function SignIn(props: Props) {
   const handleLogin = async () => {
     // Logic login here
     const result = ((await dispatch(login(valueForm))) as any) as LoginRes;
-    if (result.data.jwt) {
+    if (result.status) {
+      dispatch(setSuccessNoti(result.message));
       history.push("/");
+    } else {
+      dispatch(setError(result.message));
     }
   };
 

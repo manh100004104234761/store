@@ -39,30 +39,54 @@ export default function userReducer(
       }
     }
     case userAction.LOGIN_KEYS.LOGIN_SUCCESS: {
-      const isLoggedIn = !!(action.payload && action.payload.data);
-      if (isLoggedIn) {
+      if (action.payload.status) {
+        const { data } = action.payload;
+        const { jwt } = data;
+        localStore.setItem(BOOK_TOKEN_KEY, jwt);
+        return {
+          ...state,
+          isLoggedIn: action.payload.status,
+          authToken: jwt,
+        };
+      }
+      return {
+        ...state,
+        isLoggedIn: false,
+      };
+    }
+    case userAction.LOGIN_ADMIN_KEYS.LOGIN_ADMIN_SUCCESS: {
+      if (action.payload.status) {
         const { data } = action.payload;
         const { jwt } = data;
         localStore.setItem(BOOK_TOKEN_KEY, jwt);
         //Tra ve state (tat ca), ben duoi la ghi de len
         return {
           ...state,
-          isLoggedIn,
+          isLoggedIn: action.payload.status,
           authToken: jwt,
         };
       }
       return {
         ...state,
-        isLoggedIn,
+        isLoggedIn: false,
       };
     }
     case userAction.PERSIST_TOKEN_TO_STORE_KEYS
     .PERSIST_TOKEN_TO_STORE_SUCCESS: {
-      const token = localStore.getItem(BOOK_TOKEN_KEY);
+      let token = localStore.getItem(BOOK_TOKEN_KEY);
       if (token) {
+        let isLoggedIn = false;
+        let loadedInfo = false;
+        // try {
         const infoToken = jwtDecode(token) as ITokenDecode;
-        const isLoggedIn = infoToken.exp > Date.now() / 1000;
-        return { ...state, isLoggedIn, authToken: token, loadedInfo: true };
+        isLoggedIn = infoToken.exp > Date.now() / 1000;
+        loadedInfo = true;
+        // }
+        // catch {
+        //   localStore.removeItem(BOOK_TOKEN_KEY);
+        //   token = ''
+        // }
+        return { ...state, isLoggedIn, authToken: token, loadedInfo };
       }
       return state;
     }
@@ -75,7 +99,7 @@ export default function userReducer(
       };
     }
     case userAction.UPDATE_USER_INFO_KEYS.UPDATE_USER_INFO_SUCCESS: {
-      const isLoggedIn = !!(action.payload && action.payload.data);
+      const isLoggedIn = action.payload.status;
       if (isLoggedIn) {
         const { data } = action.payload;
         const { jwt } = data;

@@ -20,26 +20,26 @@ const useStyles = makeStyles((theme: Theme) =>
 const UserItems: NavItemProps[] = [
   {
     name: "Trang chủ",
-    url: "/",
+    url: "/admin/manager-products",
   },
   {
     name: "Quản lý",
     data: [
       {
         nameItem: "Quản lý sản phẩm",
-        urlItem: "/admin/products",
+        urlItem: "/admin/manager-products",
       },
       {
         nameItem: "Quản lý người dùng",
-        urlItem: "/admin/users",
+        urlItem: "/admin/manager-users",
       },
       {
         nameItem: "Quản lý đơn hàng",
-        urlItem: "/admin/orders",
+        urlItem: "/admin/manager-orders",
       },
       {
         nameItem: "Quản lý tin tức",
-        urlItem: "/admin/news",
+        urlItem: "/admin/manager-news",
       },
     ],
   },
@@ -48,11 +48,11 @@ const UserItems: NavItemProps[] = [
     data: [
       {
         nameItem: "Thống kê người dùng",
-        urlItem: "/admin/statistics/user",
+        urlItem: "/admin/statistics-user",
       },
       {
         nameItem: "Thống kê doanh thu",
-        urlItem: "/admin/statistics/revenue",
+        urlItem: "/admin/statistics-revenue",
       },
     ],
   },

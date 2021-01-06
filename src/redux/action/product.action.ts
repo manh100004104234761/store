@@ -1,6 +1,6 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
-import { IProductCountRes, IProductIDReq, IProductPerPageReq, IProductPerPageRes, searchProductByCategoryReq, searchProductByNameReq } from 'src/shared/type/product.type';
+import { addProductReq, deleteProductReq, deleteProductRes, IProductCountRes, IProductIDReq, IProductPerPageReq, IProductPerPageRes, searchProductByCategoryReq, searchProductByNameReq } from 'src/shared/type/product.type';
 
 export enum GETPRODUCTCOUNT_KEY{
   GETPRODUCTCOUNT_REQ = 'GETPRODUCTCOUNT_REQ',
@@ -141,4 +141,42 @@ export const getAllProduct = () => (
   method: 'POST',
   types: Object.keys(GET_ALL_PRODUCTS_KEY),
   body: {}
+})
+
+
+export enum ADD_PRODUCT_KEY{
+  ADD_PRODUCT_REQ = 'ADD_PRODUCT_REQ',
+  ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS',
+  ADD_PRODUCT_FAILURE = 'ADD_PRODUCT_FAILURE',
+}
+
+
+export const addProduct = (addProductReq: any) => (
+  dispatch: Dispatch
+) : Promise<any> => dispatchApi(dispatch, {
+  endpoint: '/admin/products/index.php',
+  method: 'POST',
+  types: Object.keys(ADD_PRODUCT_KEY),
+  body: {
+    data: addProductReq
+  }
+})
+
+
+export enum DELETE_PRODUCT_KEY{
+  DELETE_PRODUCT_REQ = 'DELETE_PRODUCT_REQ',
+  DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS',
+  DELETE_PRODUCT_FAILURE = 'DELETE_PRODUCT_FAILURE',
+}
+
+
+export const deleteProduct = (deleteProductReq: deleteProductReq) => (
+  dispatch: Dispatch
+) : Promise<deleteProductRes> => dispatchApi(dispatch, {
+  endpoint: '/admin/products/action/deleteProduct.php',
+  method: 'POST',
+  types: Object.keys(DELETE_PRODUCT_KEY),
+  body: {
+    data: deleteProductReq
+  }
 })

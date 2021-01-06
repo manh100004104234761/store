@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, useHistory } from "react-router-dom";
-import { MainLayout } from "src/components/layout";
+import { MainLayout, MainLayoutAdmin } from "src/components/layout";
 import { IUserState } from "src/redux/reducer/user.reducer";
 import { StoreState } from "src/redux/store/store";
 import { isAuthenticated } from "src/selector/user.selectors";
@@ -53,6 +53,35 @@ export const FreeRoute: React.FC<Props> = (props: Props) => {
           <Component {...matchProps} />
         </MainLayout>
       )}
+    />
+  );
+};
+
+export const AdminRoute: React.FC<Props> = (props: Props) => {
+  const { component: Component, ...rest } = props;
+  const history = useHistory();
+
+  const user = useSelector<StoreState, IUserState>((state) => state.user);
+
+  useEffect(() => {
+    if (!user.isLoggedIn) {
+      history.push("/admin/sign-in");
+    }
+  }, [user.isLoggedIn]);
+
+  // true replace by isAuthenticated()
+  return (
+    <Route
+      {...rest}
+      render={(matchProps) =>
+        isAuthenticated() ? (
+          <MainLayoutAdmin>
+            <Component {...matchProps} />
+          </MainLayoutAdmin>
+        ) : (
+          <Redirect to={{ pathname: "/admin/sign-in" }} />
+        )
+      }
     />
   );
 };

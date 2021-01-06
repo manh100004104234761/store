@@ -1,6 +1,6 @@
 import dispatchApi from './dispatchApi';
 import { Dispatch } from 'redux';
-import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes, UpdatePasswordReq } from '../../shared/type/user.type';
+import { RegisterReq, RegisterRes, LoginReq, LoginRes, GetUserInfoRes, LogoutRes, UpdatePasswordReq, blockUserReq } from '../../shared/type/user.type';
 import { checkoutReq, IGetCartDetailRes } from 'src/shared/type/cart.type';
 import { IProductIDReq, IProductReviewReq } from 'src/shared/type/product.type';
 import { IGetWishlistDetailRes } from 'src/shared/type/wishlist.type';
@@ -35,6 +35,23 @@ export const login = (info: LoginReq) => (
     endpoint: '/users/action/login.php',
     method: 'post',
     types: Object.keys(LOGIN_KEYS),
+    body: {
+      data: info,
+    },
+  });
+
+export enum LOGIN_ADMIN_KEYS {
+  LOGIN_ADMIN_REQ = 'LOGIN_ADMIN_REQ',
+  LOGIN_ADMIN_SUCCESS = 'LOGIN_ADMIN_SUCCESS',
+  LOGIN_ADMIN_FAILURE = 'LOGIN_ADMIN_FAILURE',
+}
+export const loginAdmin = (info: LoginReq) => (
+  dispatch: Dispatch
+): Promise<LoginRes> =>
+  dispatchApi(dispatch, {
+    endpoint: '/admin/users/action/login.php',
+    method: 'post',
+    types: Object.keys(LOGIN_ADMIN_KEYS),
     body: {
       data: info,
     },
@@ -306,5 +323,57 @@ export const thanhtoan = (checkoutReq : checkoutReq) => (
     types: Object.keys(CHECKOUT_KEYS),
     body: {
       data: checkoutReq
+    }
+  })
+
+export enum GET_ALL_USER_KEYS {
+  GET_ALL_USER_REQ = 'GET_ALL_USER_REQ',
+  GET_ALL_USER_SUCCESS = 'GET_ALL_USER_SUCCESS',
+  GET_ALL_USER_FAILURE = 'GET_ALL_USER_FAILURE',
+}
+
+export const getAllUser = () => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/admin/users/action/static/getAll.php',
+    method: 'POST',
+    types: Object.keys(GET_ALL_USER_KEYS),
+    body: {}
+  })
+
+export enum BLOCK_USER_KEYS {
+  BLOCK_USER_REQ = 'BLOCK_USER_REQ',
+  BLOCK_USER_SUCCESS = 'BLOCK_USER_SUCCESS',
+  BLOCK_USER_FAILURE = 'BLOCK_USER_FAILURE',
+}
+
+export const blockUser = (user_id: blockUserReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/admin/users/action/blockUser.php',
+    method: 'POST',
+    types: Object.keys(BLOCK_USER_KEYS),
+    body: {
+      data: user_id
+    }
+  })
+
+export enum UNBLOCK_USER_KEYS {
+  UNBLOCK_USER_REQ = 'UNBLOCK_USER_REQ',
+  UNBLOCK_USER_SUCCESS = 'UNBLOCK_USER_SUCCESS',
+  UNBLOCK_USER_FAILURE = 'UNBLOCK_USER_FAILURE',
+}
+
+export const unblockUser = (user_id: blockUserReq) => (
+  dispatch: Dispatch
+): Promise<any> =>
+  dispatchApi(dispatch, {
+    endpoint: '/admin/users/action/activateUser.php',
+    method: 'POST',
+    types: Object.keys(UNBLOCK_USER_KEYS),
+    body: {
+      data: user_id
     }
   })

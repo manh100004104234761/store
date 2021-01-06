@@ -18,11 +18,18 @@ export interface IUser {
   street: string;
   company: string;
   phone: string;
-  user_id?: number;
-  rule?: number;
-  created_at?: Date;
-  updated_at?: Date;
-  image?: any;
+  user_id: string;
+  rule: string;
+  is_active: string;
+  created_at: string;
+  updated_at: string;
+  image: any;
+}
+
+export interface GetAllUserRes {
+  status: boolean;
+  message: string;
+  data: IUser[]
 }
 
 
@@ -81,4 +88,8 @@ export interface UpdatePasswordReq {
   old_password: string;
   new_password: string;
   confirm_password: string;
+}
+
+export interface blockUserReq {
+  user_id: string
 }

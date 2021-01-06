@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Grid,
   Typography,
@@ -22,6 +21,8 @@ import {
 import { setSuccessNoti } from "src/redux/action/success.action";
 import { ImageViewer } from "src/components/common";
 import { addProduct, getAllProduct } from "src/redux/action/product.action";
+import { INew } from "src/shared/type/new.type";
+import { addNew, editNew, getAllNews } from "src/redux/action/new.action";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -32,16 +33,15 @@ const useStyles = makeStyles((theme) =>
 );
 export interface ComponentProps {
   onClose: () => void;
+  listNews: INew[];
+  setListNews: any;
 }
 
 interface StateProps {
-  product_name: string;
-  price: string;
-  qty: string;
-  image: any;
-  description: string;
-  values_1: any;
-  values_2: any;
+  title: string;
+  short_content: string;
+  content: string;
+  // image: any;
 }
 
 export type Props = ComponentProps;
@@ -51,59 +51,56 @@ export interface IField {
   value: string;
 }
 
-const AddProductField: IField[] = [
+const EditNewField: IField[] = [
   {
-    label: "Product Name",
-    value: "product_name",
+    label: "Title",
+    value: "title",
   },
   {
-    label: "Price",
-    value: "price",
+    label: "Short Content",
+    value: "short_content",
   },
   {
-    label: "Qty",
-    value: "qty",
-  },
-  {
-    label: "Description",
-    value: "description",
+    label: "Content",
+    value: "content",
   },
 ];
 
-const AddProduct = (props: Props) => {
-  const { onClose } = props;
+const AddNew = (props: Props) => {
+  const { onClose, listNews, setListNews } = props;
   const classes = useStyles();
   const [values, setValues] = useState<StateProps>({
-    product_name: "",
-    price: "",
-    qty: "",
-    image: null,
-    description: "",
-    values_1: "",
-    values_2: "",
+    title: "",
+    short_content: "",
+    content: "",
   });
   const dispatch = useDispatch();
-  const user = useSelector<StoreState, IUserState>((state) => state.user);
 
   const onCreate = async () => {
     try {
-      let formData = new FormData();
-      formData.append("image", values.image);
-      formData.append("product_name", values.product_name);
-      formData.append("price", values.price);
-      formData.append("qty", values.qty);
-      formData.append("description", values.description);
-      formData.append("values_1", values.values_1);
-      formData.append("values_2", values.values_2);
       let result;
-      if (values.image) {
-        result = (await dispatch(addProduct(formData))) as any;
-      } else {
-        result = (await dispatch(addProduct(values))) as any;
-      }
-      if (Boolean(result)) {
-        await dispatch(getAllProduct());
-        dispatch(setSuccessNoti("Create Product Successfully"));
+      // let formData = new FormData();
+      // formData.append("image", values.image);
+      // formData.append("title", values.title);
+      // formData.append("short_content", values.short_content);
+      // formData.append("content", values.content);
+      // let result;
+      // if (values.image) {
+      //   let result: any = null;
+      //   if (newDetail) {
+      //     result = (await dispatch(editNew(formData))) as any;
+      //   } else {
+      //     result = (await dispatch(addNew(formData))) as any;
+      //   }
+      // } else {
+      result = (await dispatch(addNew(values))) as any;
+      // }
+      if (result.status) {
+        let result = (await dispatch(getAllNews())) as any;
+        if (result.status) {
+          setListNews(result.data);
+        }
+        dispatch(setSuccessNoti("Create New Successfully"));
         onClose();
       }
     } catch (err) {}
@@ -116,7 +113,7 @@ const AddProduct = (props: Props) => {
       </DialogTitle>
       <DialogContent>
         <Grid container={true} spacing={2}>
-          {AddProductField.map((field) => (
+          {EditNewField.map((field) => (
             <Grid item={true} xs={12} key={field.label}>
               <TextField
                 label={field.label}
@@ -138,14 +135,14 @@ const AddProduct = (props: Props) => {
               />
             </Grid>
           ))}
-          <Grid item xs={12} style={{ marginTop: "10px" }}>
+          {/* <Grid item xs={12} style={{ marginTop: "10px" }}>
             <ImageViewer
               aspectRatio={4 / 3}
               onSave={(cropData: any) => {
                 setValues({ ...values, image: cropData });
               }}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </DialogContent>
       <DialogActions>
@@ -159,4 +156,4 @@ const AddProduct = (props: Props) => {
     </Dialog>
   );
 };
-export default AddProduct;
+export default AddNew;

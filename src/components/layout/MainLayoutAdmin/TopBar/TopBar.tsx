@@ -127,7 +127,7 @@ const TopBar = () => {
   const logOut = () => {
     handleMenuClose();
     dispatch(logout());
-    history.push("/admin");
+    history.push("/");
   };
 
   const [value, setValue] = useState<string>("");
@@ -162,7 +162,7 @@ const TopBar = () => {
             color="inherit"
             aria-label="menu"
           >
-            <a href="\" className={classes.badge}>
+            <a href="/admin/manager-products" className={classes.badge}>
               <HomeIcon style={{ fontSize: 40 }} />
             </a>
           </IconButton>

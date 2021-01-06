@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import {
   CardContent,
   CardMedia,
   TextField,
   Typography,
 } from "@material-ui/core";
-import CardItem from "../../common/CardItem/CardItem";
-import Button from "@material-ui/core/Button";
 import Title from "../../common/Title/Title";
 import {
   IProductDetail,
@@ -18,7 +15,6 @@ import {
 import { useDispatch } from "react-redux";
 import { getProductDetail } from "src/redux/action/product.action";
 import { comment } from "src/redux/action/user.action";
-import { DriveEtaTwoTone } from "@material-ui/icons";
 
 interface Props {
   match: any;
@@ -32,26 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ItemDetail(props: Props) {
+export default function ProductDetail(props: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [product, setproduct] = useState<IProductDetail>({} as IProductDetail);
-
-  const [binhluan, setBinhluan] = useState<string>("");
-  const handleChange = (event: any) => {
-    setBinhluan(event.target.value);
-  };
-
-  const handleComment = async (event: any) => {
-    let commentReq = {
-      product_id: product.product_id,
-      content: binhluan,
-    };
-    const result = (await dispatch(comment(commentReq))) as any;
-    if (result.status) {
-      window.location.reload();
-    }
-  };
 
   const productId = props.match.params.productId;
   let productDetailReq: IProductIDReq = {
@@ -94,12 +74,22 @@ export default function ItemDetail(props: Props) {
               <Typography variant="body2" color="textSecondary" component="p">
                 {product.description}
               </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {product.price}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {product.qty}
-              </Typography>
+              <div>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Giá
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {product.price}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Số lượng
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {product.qty}
+                </Typography>
+              </div>
             </CardContent>
           </div>
           <div style={{ marginBottom: 150 }}>

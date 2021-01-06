@@ -15,7 +15,7 @@ import { LoginReq, LoginRes } from "../../../shared/type/user.type";
 import { StoreState } from "../../../redux/store/store";
 import { IUserState } from "../../../redux/reducer/user.reducer";
 import { useHistory } from "react-router-dom";
-import { login } from "../../../redux/action/user.action";
+import { login, loginAdmin } from "../../../redux/action/user.action";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
 
 interface Props {}
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(props: Props) {
+export default function AdminSignIn(props: Props) {
   const classes = useStyles();
 
   //React Hook Function
@@ -106,15 +106,15 @@ export default function SignIn(props: Props) {
 
   const handleLogin = async () => {
     // Logic login here
-    const result = ((await dispatch(login(valueForm))) as any) as LoginRes;
+    const result = ((await dispatch(loginAdmin(valueForm))) as any) as LoginRes;
     if (result.data.jwt) {
-      history.push("/admin/");
+      history.push("/admin/manager-products");
     }
   };
 
   useEffect(() => {
     if (user.isLoggedIn) {
-      history.push("/admin/");
+      history.push("/admin/manager-products");
     }
   }, []);
 
@@ -122,7 +122,7 @@ export default function SignIn(props: Props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Button onClick={() => history.push("/")}>
+        <Button onClick={() => history.push("/admin/manager-products")}>
           <HomeIcon style={{ fontSize: 50 }} />
         </Button>
         <Typography component="h1" variant="h5">

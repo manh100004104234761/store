@@ -51,19 +51,6 @@ const apiMiddleware: Middleware = store => next => async <R>(
     next({ type: LoadingKeys.REMOVE_LOADING });
     return response.data as R;
   } catch (error) {
-    console.error('error', error);
-    console.error('error-response', error.response);
-    let messages = error.response.data.message || error.message;
-    if (typeof messages === 'string') {
-      messages = [messages];
-    }
-    next({ type: LoadingKeys.REMOVE_LOADING });
-    next({
-      type: ErrorKeys.SET_ERROR,
-      payload: {
-        messages,
-      },
-    });
     return null;
   }
 };

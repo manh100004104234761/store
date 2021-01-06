@@ -85,3 +85,21 @@ export interface searchProductByCategoryReq {
   category_id: string;
 }
 
+export interface addProductReq {
+  product_name: string;
+  price: string;
+  qty: string;
+  image: any;
+  description: string;
+  values: []
+}
+
+export interface deleteProductReq {
+  product_id: string;
+}
+
+export interface deleteProductRes {
+  status: boolean;
+  data: any;
+  message: string;
+}

@@ -18,6 +18,7 @@ import { TextColor } from "../../../shared/ultis/color";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
 import { FieldArr } from "./SignUpForm";
 import { ImageViewer } from "..";
+import { setSuccessNoti } from "src/redux/action/success.action";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,6 +80,7 @@ export default function SingUp() {
       register(valueForm as any)
     )) as any) as RegisterRes;
     if (result.status == true) {
+      dispatch(setSuccessNoti("Register Successfully"));
       history.push("/auth/sign-in");
     }
     if (result.status == false) {
